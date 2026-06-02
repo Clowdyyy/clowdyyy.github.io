@@ -1,22 +1,48 @@
+@font-face {
+    font-family: 'Minecraft UI';
+    src: url('fonts/Minecraft.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 html {
     scroll-behavior: smooth;
 }
 
 body {
-    font-family: 'Roboto Mono', monospace;
+    font-family: 'Minecraft UI', monospace;
     background-color: #000000;
     color: #ffffff;
+    
+    image-rendering: pixelated;
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
+    font-smooth: never;
 }
 
 section {
     scroll-margin-top: 50px;
 }
 
+h1, h2, h3, nav a, .tech-card span, button, .minecraft-shadow {
+    text-shadow: 2px 2px 0px #2c2c2c;
+}
+
+.bg-white {
+    text-shadow: 1px 1px 0px #b5b5b5 !important;
+}
+
 .cursor {
     display: inline-block;
-    width: 12px;
-    background-color: #fff;
+    width: 0.15em;           
+    height: 0.9em;           
+    background-color: #ffffff;
     animation: blink 0.8s infinite;
+    vertical-align: bottom;
+    margin-left: 6px;        
+    
+    box-shadow: 1.5px 1.5px 0px #2c2c2c; 
 }
 
 @keyframes blink {
@@ -25,12 +51,12 @@ section {
 }
 
 .tech-card {
-    border: 1px solid #1a1a1a;
-    transition: all 0.3s ease;
+    border: 2px solid #1a1a1a;
+    transition: all 0.2s ease;
 }
 
 .tech-card:hover {
     border-color: #ffffff;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.08);
-    transform: translateY(-2px);
+    box-shadow: 4px 4px 0px #1a1a1a;
+    transform: translate(-2px, -2px);
 }

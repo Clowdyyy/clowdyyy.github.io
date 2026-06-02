@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>clowdy | AI & Backend Developer</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="selection:bg-white selection:text-black antialiased text-xs">
+<body class="selection:bg-white selection:text-black text-xs md:text-sm antialiased">
 
-    <nav class="max-w-5xl mx-auto px-6 py-8 flex justify-between items-center border-b border-[#1a1a1a]">
-        <a href="#" class="text-xl font-black tracking-tighter">Clowdy</a>
-        <div class="space-x-6 font-bold uppercase tracking-wider text-gray-400 text-[11px]">
+    <nav class="max-w-5xl mx-auto px-6 py-8 flex justify-between items-center border-b-2 border-[#1a1a1a]">
+        <a href="#" class="text-xl font-bold uppercase tracking-tight">Clowdy</a>
+        <div class="space-x-6 uppercase text-gray-400 text-xs">
             <a href="#projects" class="hover:text-white transition">Projects</a>
             <a href="#stack" class="hover:text-white transition">Stack</a>
             <a href="#contact" class="hover:text-white transition">Contact</a>
@@ -20,120 +19,118 @@
     </nav>
 
     <section class="max-w-5xl mx-auto px-6 pt-24 pb-16 min-h-[65vh] flex flex-col justify-center">
-        <p class="text-[11px] font-bold uppercase tracking-widest text-gray-500 mb-4">// PORTFOLIO_</p>
+        <p class="text-xs text-gray-500 mb-4">// PORTFOLIO_</p>
         
-        <h1 class="text-3xl md:text-5xl font-black uppercase mb-6 leading-none min-h-[100px] md:min-h-[110px]">
+        <h1 class="text-4xl md:text-6xl uppercase mb-6 leading-relaxed min-h-[140px] md:min-h-[160px]">
             <span id="typewriter"></span><span class="cursor" id="typewriter-cursor">&nbsp;</span>
         </h1>
         
-        <p class="text-gray-400 max-w-xl text-xs md:text-sm mb-8 leading-relaxed normal-case">
+        <p class="text-gray-400 max-w-2xl text-xs md:text-sm mb-8 leading-relaxed normal-case minecraft-shadow">
             I build robust backend systems, integrate Large Language Models, automate business workflows, and create intelligent production-ready applications.
         </p>
         
         <div class="flex flex-wrap gap-4">
-            <a href="#contact" class="bg-white text-black font-bold uppercase px-5 py-3 tracking-wider hover:bg-gray-200 transition">
+            <a href="#contact" class="bg-white text-black font-bold uppercase px-5 py-3 text-xs hover:bg-gray-200 transition">
                 Hire Me on Fiverr
             </a>
-            <a href="https://github.com/clowdyyy" target="_blank" class="border border-[#333] text-white font-bold uppercase px-5 py-3 tracking-wider hover:border-white transition">
+            <a href="https://github.com/clowdy" target="_blank" class="border-2 border-[#333] text-white font-bold uppercase px-5 py-3 text-xs hover:border-white transition">
                 View GitHub
             </a>
         </div>
     </section>
 
-    <section id="projects" class="max-w-5xl mx-auto px-6 py-16 border-t border-[#1a1a1a]">
-        <h2 class="text-sm font-black uppercase tracking-wider mb-12">// RECENT_WORKS</h2>
+    <section id="projects" class="max-w-5xl mx-auto px-6 py-16 border-t-2 border-[#1a1a1a]">
+        <h2 class="text-xs uppercase text-gray-500 mb-12">// RECENT_WORKS</h2>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             
             <div class="tech-card p-6 bg-[#050505] flex flex-col justify-between">
                 <div>
                     <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-sm font-bold uppercase tracking-tight">nutrimind-bot</h3>
-                        <span class="text-[10px] bg-[#111] px-2 py-1 text-gray-400 border border-[#222]">Public</span>
+                        <h3 class="text-sm font-bold uppercase">nutrimind-bot</h3>
+                        <span class="text-[10px] bg-[#111] px-2 py-1 text-gray-400 border-2 border-[#222]">Public</span>
                     </div>
-                    <p class="text-gray-400 text-[11px] mb-6 leading-relaxed normal-case">
+                    <p class="text-gray-400 text-xs mb-6 leading-relaxed normal-case minecraft-shadow">
                         An AI-powered Telegram bot for effortless calorie and macro tracking via text descriptions and food photos. Built with Python, Aiogram 3, SQLAlchemy, and Gemini AI.
                     </p>
                 </div>
                 <div>
-                    <div class="flex flex-wrap gap-2 mb-4 text-[10px] font-bold text-gray-500 uppercase">
-                        <span>#Python</span> <span>#Aiogram3</span> <span>#Gemini-API</span> <span>#SQLAlchemy</span>
+                    <div class="flex flex-wrap gap-2 mb-4 text-[10px] text-gray-500 uppercase">
+                        <span>#Python</span> <span>#Aiogram3</span> <span>#Gemini</span>
                     </div>
-                    <a href="https://github.com/clowdyyy/nutrimind-bot" target="_blank" class="text-[11px] font-bold uppercase underline tracking-wider hover:text-gray-300">Source Code &rarr;</a>
+                    <a href="https://github.com/clowdy/nutrimind-bot" target="_blank" class="text-xs underline hover:text-gray-300">Source Code &rarr;</a>
                 </div>
             </div>
 
             <div class="tech-card p-6 bg-[#050505] flex flex-col justify-between">
                 <div>
                     <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-sm font-bold uppercase tracking-tight">ai-document-analyst</h3>
-                        <span class="text-[10px] bg-[#111] px-2 py-1 text-gray-400 border border-[#222]">Public</span>
+                        <h3 class="text-sm font-bold uppercase">ai-document-analyst</h3>
+                        <span class="text-[10px] bg-[#111] px-2 py-1 text-gray-400 border-2 border-[#222]">Public</span>
                     </div>
-                    <p class="text-gray-400 text-[11px] mb-6 leading-relaxed normal-case">
+                    <p class="text-gray-400 text-xs mb-6 leading-relaxed normal-case minecraft-shadow">
                         A fully local RAG (Retrieval-Augmented Generation) system for secure, 100% private PDF document analysis using LangChain, ChromaDB, Ollama (Llama 3), and Streamlit.
                     </p>
                 </div>
                 <div>
-                    <div class="flex flex-wrap gap-2 mb-4 text-[10px] font-bold text-gray-500 uppercase">
-                        <span>#LangChain</span> <span>#Ollama</span> <span>#ChromaDB</span> <span>#Streamlit</span>
+                    <div class="flex flex-wrap gap-2 mb-4 text-[10px] text-gray-500 uppercase">
+                        <span>#LangChain</span> <span>#Ollama</span> <span>#ChromaDB</span>
                     </div>
-                    <a href="https://github.com/clowdyyy/ai-document-analyst" target="_blank" class="text-[11px] font-bold uppercase underline tracking-wider hover:text-gray-300">Source Code &rarr;</a>
+                    <a href="https://github.com/clowdy/ai-document-analyst" target="_blank" class="text-xs underline hover:text-gray-300">Source Code &rarr;</a>
                 </div>
             </div>
 
             <div class="tech-card p-6 bg-[#050505] flex flex-col justify-between md:col-span-2">
                 <div>
                     <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-sm font-bold uppercase tracking-tight">ai-ticket-agent-fastapi</h3>
-                        <span class="text-[10px] bg-[#111] px-2 py-1 text-gray-400 border border-[#222]">Public</span>
+                        <h3 class="text-sm font-bold uppercase">ai-ticket-agent-fastapi</h3>
+                        <span class="text-[10px] bg-[#111] px-2 py-1 text-gray-400 border-2 border-[#222]">Public</span>
                     </div>
-                    <p class="text-gray-400 text-[11px] mb-6 leading-relaxed normal-case">
+                    <p class="text-gray-400 text-xs mb-6 leading-relaxed normal-case minecraft-shadow">
                         Intelligent, automated B2B customer support and ticket processing agent. Leverages FastAPI for high-performance routing and Google Gemini for intent classification, sentiment analysis, and structured query generation.
                     </p>
                 </div>
                 <div>
-                    <div class="flex flex-wrap gap-2 mb-4 text-[10px] font-bold text-gray-500 uppercase">
-                        <span>#FastAPI</span> <span>#Gemini-AI</span> <span>#Agents</span> <span>#Pydantic</span>
+                    <div class="flex flex-wrap gap-2 mb-4 text-[10px] text-gray-500 uppercase">
+                        <span>#FastAPI</span> <span>#Gemini-AI</span> <span>#Agents</span>
                     </div>
-                    <a href="https://github.com/clowdyyy/ai-ticket-agent-fastapi" target="_blank" class="text-[11px] font-bold uppercase underline tracking-wider hover:text-gray-300">Source Code &rarr;</a>
+                    <a href="https://github.com/clowdy/ai-ticket-agent-fastapi" target="_blank" class="text-xs underline hover:text-gray-300">Source Code &rarr;</a>
                 </div>
             </div>
 
         </div>
     </section>
 
-    <!-- РАЗДЕЛ СО СТЕКОМ -->
-    <section id="stack" class="max-w-5xl mx-auto px-6 py-16 border-t border-[#1a1a1a]">
-        <h2 class="text-sm font-black uppercase tracking-wider mb-8">// TECH_STACK</h2>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center text-[11px]">
-            <div class="border border-[#111] bg-[#030303] py-4 font-bold uppercase tracking-wider">Python 3.12</div>
-            <div class="border border-[#111] bg-[#030303] py-4 font-bold uppercase tracking-wider">FastAPI</div>
-            <div class="border border-[#111] bg-[#030303] py-4 font-bold uppercase tracking-wider">Aiogram 3</div>
-            <div class="border border-[#111] bg-[#030303] py-4 font-bold uppercase tracking-wider">LangChain</div>
-            <div class="border border-[#111] bg-[#030303] py-4 font-bold uppercase tracking-wider">Gemini API</div>
-            <div class="border border-[#111] bg-[#030303] py-4 font-bold uppercase tracking-wider">Ollama / LLMs</div>
-            <div class="border border-[#111] bg-[#030303] py-4 font-bold uppercase tracking-wider">SQLAlchemy</div>
-            <div class="border border-[#111] bg-[#030303] py-4 font-bold uppercase tracking-wider">ChromaDB / SQLite</div>
+    <section id="stack" class="max-w-5xl mx-auto px-6 py-16 border-t-2 border-[#1a1a1a]">
+        <h2 class="text-xs uppercase text-gray-500 mb-8">// TECH_STACK</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center text-xs">
+            <div class="border-2 border-[#111] bg-[#030303] py-4 uppercase">Python 3.12</div>
+            <div class="border-2 border-[#111] bg-[#030303] py-4 uppercase">FastAPI</div>
+            <div class="border-2 border-[#111] bg-[#030303] py-4 uppercase">Aiogram 3</div>
+            <div class="border-2 border-[#111] bg-[#030303] py-4 uppercase">LangChain</div>
+            <div class="border-2 border-[#111] bg-[#030303] py-4 uppercase">Gemini API</div>
+            <div class="border-2 border-[#111] bg-[#030303] py-4 uppercase">Ollama</div>
+            <div class="border-2 border-[#111] bg-[#030303] py-4 uppercase">SQLAlchemy</div>
+            <div class="border-2 border-[#111] bg-[#030303] py-4 uppercase">ChromaDB</div>
         </div>
     </section>
 
-    <!-- КОНТАКТЫ -->
-    <section id="contact" class="max-w-5xl mx-auto px-6 py-24 border-t border-[#1a1a1a] text-center">
-        <h2 class="text-lg md:text-2xl font-black uppercase mb-6">Let's build something intelligent.</h2>
-        <p class="text-gray-400 max-w-md mx-auto text-[11px] mb-8 leading-relaxed normal-case">
+    <section id="contact" class="max-w-5xl mx-auto px-6 py-24 border-t-2 border-[#1a1a1a] text-center">
+        <h2 class="text-xl md:text-2xl uppercase mb-6">Let's build something intelligent.</h2>
+        <p class="text-gray-400 max-w-md mx-auto text-xs mb-8 leading-relaxed normal-case minecraft-shadow">
             Need a custom Telegram bot, AI agent, database architecture, or LLM integration? Let's discuss your project goals.
         </p>
         <div class="inline-flex flex-col sm:flex-row gap-4 justify-center items-center w-full sm:w-auto">
-            <a href="https://t.me/abbosibodullaev" target="_blank" class="bg-white text-black font-bold uppercase px-8 py-4 tracking-wider hover:bg-gray-200 transition w-full sm:w-auto">
+            <a href="https://t.me/abbosibodullaev" target="_blank" class="bg-white text-black font-bold uppercase px-8 py-4 text-xs hover:bg-gray-200 transition w-full sm:w-auto">
                 Contact via Telegram
             </a>
-            <a href="https://github.com/clowdyyy" target="_blank" class="border border-[#333] text-white font-bold uppercase px-8 py-4 tracking-wider hover:border-white transition w-full sm:w-auto">
+            <a href="https://github.com/clowdy" target="_blank" class="border-2 border-[#333] text-white font-bold uppercase px-8 py-4 text-xs hover:border-white transition w-full sm:w-auto">
                 View GitHub
             </a>
         </div>
     </section>
 
-    <footer class="max-w-5xl mx-auto px-6 py-8 border-t border-[#1a1a1a] text-center text-[10px] text-gray-600 uppercase font-bold tracking-widest">
+    <footer class="max-w-5xl mx-auto px-6 py-8 border-t-2 border-[#1a1a1a] text-center text-[10px] text-gray-600 uppercase font-bold">
         &copy; 2026 clowdy. All rights reserved. // engineered_with_precision
     </footer>
 
@@ -150,7 +147,7 @@
                     element.innerHTML += text.charAt(index);
                 }
                 index++;
-                setTimeout(type, 60);
+                setTimeout(type, 70);
             }
         }
 
