@@ -60,3 +60,6 @@ h1, h2, h3, nav a, .tech-card span, button, .minecraft-shadow {
     box-shadow: 4px 4px 0px #1a1a1a;
     transform: translate(-2px, -2px);
 }
+html, body, a, button, input, select, textarea {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Cpath fill='%23000000' d='M6 1h4v5h5v4h-5v5h-4v-5h-5v-4h5z'/%3E%3Cpath fill='%23ffffff' d='M7 2h2v5h5v2h-5v5h-2v-5h-5v-2h5z'/%3E%3C/svg%3E") 8 8, auto;
+}
