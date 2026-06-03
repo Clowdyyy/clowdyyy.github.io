@@ -57,6 +57,7 @@ h1, h2, h3, nav a, .tech-card span, button, .minecraft-shadow {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
 }
+
 .logo-smooth-hover {
     transition: color 0.2s steps(3), transform 0.2s steps(3), text-shadow 0.2s steps(3);
     position: relative;
