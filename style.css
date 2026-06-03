@@ -13,12 +13,21 @@ body {
     font-family: 'Minecraft UI', monospace;
     background-color: #000000;
     color: #ffffff;
-    
     image-rendering: pixelated;
     text-rendering: optimizeSpeed;
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: none;
     font-smooth: never;
+}
+
+#neural-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
 }
 
 section {
@@ -41,7 +50,6 @@ h1, h2, h3, nav a, .tech-card span, button, .minecraft-shadow {
     animation: blink 0.8s infinite;
     vertical-align: bottom;
     margin-left: 6px;        
-    
     box-shadow: 1.5px 1.5px 0px #2c2c2c; 
 }
 
@@ -49,17 +57,77 @@ h1, h2, h3, nav a, .tech-card span, button, .minecraft-shadow {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
 }
+.logo-smooth-hover {
+    transition: color 0.2s steps(3), transform 0.2s steps(3), text-shadow 0.2s steps(3);
+    position: relative;
+}
+
+.logo-smooth-hover:hover {
+    color: #00ffcc;
+    transform: translate(-1px, -1px);
+    text-shadow: 3px 3px 0px #2c2c2c;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #000000;
+    border-left: 2px solid #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #161616;
+    border: 2px solid #000000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ffffff;
+}
 
 .tech-card {
     border: 2px solid #1a1a1a;
-    transition: all 0.2s ease;
+    transition: transform 0.1s steps(3), box-shadow 0.1s steps(3), border-color 0.1s steps(3);
 }
 
 .tech-card:hover {
     border-color: #ffffff;
-    box-shadow: 4px 4px 0px #1a1a1a;
-    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #161616;
+    transform: translate(-3px, -3px);
 }
+
+.hover-3d {
+    transition: transform 0.1s steps(3), box-shadow 0.1s steps(3), border-color 0.1s steps(3);
+}
+
+.hover-3d-white:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 5px 5px 0px #2c2c2c;
+}
+
+.hover-3d-black:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 5px 5px 0px #ffffff;
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease-out;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+
 html, body, a, button, input, select, textarea {
     cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Cpath fill='%23000000' d='M6 1h4v5h5v4h-5v5h-4v-5h-5v-4h5z'/%3E%3Cpath fill='%23ffffff' d='M7 2h2v5h5v2h-5v5h-2v-5h-5v-2h5z'/%3E%3C/svg%3E") 8 8, auto;
 }

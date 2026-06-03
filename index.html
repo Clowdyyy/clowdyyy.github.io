@@ -7,18 +7,29 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="selection:bg-white selection:text-black text-xs md:text-sm antialiased">
+<body class="selection:bg-white selection:text-black text-xs md:text-sm antialiased overflow-x-hidden bg-black text-white">
 
-    <nav class="max-w-5xl mx-auto px-6 py-8 flex justify-between items-center border-b-2 border-[#1a1a1a]">
-        <a href="#" class="text-xl font-bold uppercase tracking-tight">Clowdy</a>
-        <div class="space-x-6 uppercase text-gray-400 text-xs">
-            <a href="#projects" class="hover:text-white transition">Projects</a>
-            <a href="#stack" class="hover:text-white transition">Stack</a>
-            <a href="#contact" class="hover:text-white transition">Contact</a>
+    <canvas id="neural-canvas"></canvas>
+
+    <nav class="max-w-5xl mx-auto px-6 py-6 flex flex-wrap justify-between items-center border-b-2 border-[#1a1a1a] relative z-10 gap-y-4">
+    <a href="#" class="text-xl font-bold uppercase tracking-tight logo-smooth-hover">Clowdy</a>
+    
+    <div class="flex items-center space-x-4 sm:space-x-6 uppercase text-gray-400 text-[10px] sm:text-xs">
+        <button id="terminal-toggle" class="text-[#00ffcc] hover:text-white transition bg-[#090909] border border-[#1a1a1a] px-2 py-1">
+            [ _terminal ]
+        </button>
+        <a href="#projects" class="hover:text-white transition">Projects</a>
+        <a href="#stack" class="hover:text-white transition">Stack</a>
+        <a href="#contact" class="hover:text-white transition">Contact</a>
+    </div>
+</nav>
+
+    <section class="max-w-5xl mx-auto px-6 pt-24 pb-16 min-h-[65vh] flex flex-col justify-center relative z-10 reveal">
+        <div class="text-[10px] text-[#00ffcc] mb-4 uppercase tracking-wider font-bold">
+            <span class="inline-block w-2 h-2 bg-[#00ffcc] animate-pulse mr-2 shadow-[0_0_8px_#00ffcc]"></span>
+            [ Status: Available for work | Local Time: <span id="live-time">00:00:00</span> TSH ]
         </div>
-    </nav>
-
-    <section class="max-w-5xl mx-auto px-6 pt-24 pb-16 min-h-[65vh] flex flex-col justify-center">
+        
         <p class="text-xs text-gray-500 mb-4">// PORTFOLIO_</p>
         
         <h1 class="text-4xl md:text-6xl uppercase mb-6 leading-relaxed min-h-[140px] md:min-h-[160px]">
@@ -30,21 +41,21 @@
         </p>
         
         <div class="flex flex-wrap gap-4">
-            <a href="#contact" class="bg-white text-black font-bold uppercase px-5 py-3 text-xs hover:bg-gray-200 transition">
+            <a href="#contact" class="bg-white text-black font-bold uppercase px-5 py-3 text-xs hover-3d hover-3d-white">
                 Hire Me on Fiverr
             </a>
-            <a href="https://github.com/clowdy" target="_blank" class="border-2 border-[#333] text-white font-bold uppercase px-5 py-3 text-xs hover:border-white transition">
+            <a href="https://github.com/clowdy" target="_blank" class="border-2 border-[#333] text-white font-bold uppercase px-5 py-3 text-xs hover-3d hover-3d-black">
                 View GitHub
             </a>
         </div>
     </section>
 
-    <section id="projects" class="max-w-5xl mx-auto px-6 py-16 border-t-2 border-[#1a1a1a]">
-        <h2 class="text-xs uppercase text-gray-500 mb-12">// RECENT_WORKS</h2>
+    <section id="projects" class="max-w-5xl mx-auto px-6 py-16 border-t-2 border-[#1a1a1a] relative z-10">
+        <h2 class="text-xs uppercase text-gray-500 mb-12 reveal">// RECENT_WORKS</h2>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             
-            <div class="tech-card p-6 bg-[#050505] flex flex-col justify-between">
+            <div class="tech-card p-6 bg-[#050505]/90 backdrop-blur-sm flex flex-col justify-between reveal">
                 <div>
                     <div class="flex justify-between items-start mb-4">
                         <h3 class="text-sm font-bold uppercase">nutrimind-bot</h3>
@@ -58,11 +69,11 @@
                     <div class="flex flex-wrap gap-2 mb-4 text-[10px] text-gray-500 uppercase">
                         <span>#Python</span> <span>#Aiogram3</span> <span>#Gemini</span>
                     </div>
-                    <a href="https://github.com/clowdy/nutrimind-bot" target="_blank" class="text-xs underline hover:text-gray-300">Source Code &rarr;</a>
+                    <a href="https://github.com/clowdy/nutrimind-bot" target="_blank" class="text-xs underline hover:text-gray-300 transition">Source Code &rarr;</a>
                 </div>
             </div>
 
-            <div class="tech-card p-6 bg-[#050505] flex flex-col justify-between">
+            <div class="tech-card p-6 bg-[#050505]/90 backdrop-blur-sm flex flex-col justify-between reveal delay-100">
                 <div>
                     <div class="flex justify-between items-start mb-4">
                         <h3 class="text-sm font-bold uppercase">ai-document-analyst</h3>
@@ -76,11 +87,11 @@
                     <div class="flex flex-wrap gap-2 mb-4 text-[10px] text-gray-500 uppercase">
                         <span>#LangChain</span> <span>#Ollama</span> <span>#ChromaDB</span>
                     </div>
-                    <a href="https://github.com/clowdy/ai-document-analyst" target="_blank" class="text-xs underline hover:text-gray-300">Source Code &rarr;</a>
+                    <a href="https://github.com/clowdy/ai-document-analyst" target="_blank" class="text-xs underline hover:text-gray-300 transition">Source Code &rarr;</a>
                 </div>
             </div>
 
-            <div class="tech-card p-6 bg-[#050505] flex flex-col justify-between md:col-span-2">
+            <div class="tech-card p-6 bg-[#050505]/90 backdrop-blur-sm flex flex-col justify-between md:col-span-2 reveal delay-200">
                 <div>
                     <div class="flex justify-between items-start mb-4">
                         <h3 class="text-sm font-bold uppercase">ai-ticket-agent-fastapi</h3>
@@ -94,45 +105,59 @@
                     <div class="flex flex-wrap gap-2 mb-4 text-[10px] text-gray-500 uppercase">
                         <span>#FastAPI</span> <span>#Gemini-AI</span> <span>#Agents</span>
                     </div>
-                    <a href="https://github.com/clowdy/ai-ticket-agent-fastapi" target="_blank" class="text-xs underline hover:text-gray-300">Source Code &rarr;</a>
+                    <a href="https://github.com/clowdy/ai-ticket-agent-fastapi" target="_blank" class="text-xs underline hover:text-gray-300 transition">Source Code &rarr;</a>
                 </div>
             </div>
 
         </div>
     </section>
 
-    <section id="stack" class="max-w-5xl mx-auto px-6 py-16 border-t-2 border-[#1a1a1a]">
-        <h2 class="text-xs uppercase text-gray-500 mb-8">// TECH_STACK</h2>
+    <section id="stack" class="max-w-5xl mx-auto px-6 py-16 border-t-2 border-[#1a1a1a] relative z-10">
+        <h2 class="text-xs uppercase text-gray-500 mb-8 reveal">// TECH_STACK</h2>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center text-xs">
-            <div class="border-2 border-[#111] bg-[#030303] py-4 uppercase">Python 3.12</div>
-            <div class="border-2 border-[#111] bg-[#030303] py-4 uppercase">FastAPI</div>
-            <div class="border-2 border-[#111] bg-[#030303] py-4 uppercase">Aiogram 3</div>
-            <div class="border-2 border-[#111] bg-[#030303] py-4 uppercase">LangChain</div>
-            <div class="border-2 border-[#111] bg-[#030303] py-4 uppercase">Gemini API</div>
-            <div class="border-2 border-[#111] bg-[#030303] py-4 uppercase">Ollama</div>
-            <div class="border-2 border-[#111] bg-[#030303] py-4 uppercase">SQLAlchemy</div>
-            <div class="border-2 border-[#111] bg-[#030303] py-4 uppercase">ChromaDB</div>
+            <div class="border-2 border-[#111] bg-[#030303]/90 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal">Python 3.12</div>
+            <div class="border-2 border-[#111] bg-[#030303]/90 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal delay-100">FastAPI</div>
+            <div class="border-2 border-[#111] bg-[#030303]/90 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal delay-200">Aiogram 3</div>
+            <div class="border-2 border-[#111] bg-[#030303]/90 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal delay-300">LangChain</div>
+            <div class="border-2 border-[#111] bg-[#030303]/90 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal">Gemini API</div>
+            <div class="border-2 border-[#111] bg-[#030303]/90 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal delay-100">Ollama</div>
+            <div class="border-2 border-[#111] bg-[#030303]/90 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal delay-200">SQLAlchemy</div>
+            <div class="border-2 border-[#111] bg-[#030303]/90 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal delay-300">ChromaDB</div>
         </div>
     </section>
 
-    <section id="contact" class="max-w-5xl mx-auto px-6 py-24 border-t-2 border-[#1a1a1a] text-center">
+    <section id="contact" class="max-w-5xl mx-auto px-6 py-24 border-t-2 border-[#1a1a1a] text-center relative z-10 reveal">
         <h2 class="text-xl md:text-2xl uppercase mb-6">Let's build something intelligent.</h2>
         <p class="text-gray-400 max-w-md mx-auto text-xs mb-8 leading-relaxed normal-case minecraft-shadow">
             Need a custom Telegram bot, AI agent, database architecture, or LLM integration? Let's discuss your project goals.
         </p>
         <div class="inline-flex flex-col sm:flex-row gap-4 justify-center items-center w-full sm:w-auto">
-            <a href="https://t.me/abbosibodullaev" target="_blank" class="bg-white text-black font-bold uppercase px-8 py-4 text-xs hover:bg-gray-200 transition w-full sm:w-auto">
+            <a href="https://t.me/abbosibodullaev" target="_blank" class="bg-white text-black font-bold uppercase px-8 py-4 text-xs hover-3d hover-3d-white w-full sm:w-auto">
                 Contact via Telegram
             </a>
-            <a href="https://github.com/clowdy" target="_blank" class="border-2 border-[#333] text-white font-bold uppercase px-8 py-4 text-xs hover:border-white transition w-full sm:w-auto">
+            <a href="https://github.com/clowdy" target="_blank" class="border-2 border-[#333] text-white font-bold uppercase px-8 py-4 text-xs hover-3d hover-3d-black w-full sm:w-auto">
                 View GitHub
             </a>
         </div>
     </section>
 
-    <footer class="max-w-5xl mx-auto px-6 py-8 border-t-2 border-[#1a1a1a] text-center text-[10px] text-gray-600 uppercase font-bold">
+    <footer class="max-w-5xl mx-auto px-6 py-8 border-t-2 border-[#1a1a1a] text-center text-[10px] text-gray-600 uppercase font-bold relative z-10 reveal">
         &copy; 2026 clowdy. All rights reserved. // engineered_with_precision
     </footer>
+
+    <div id="mini-terminal" class="fixed bottom-0 left-0 w-full sm:bottom-4 sm:right-4 sm:w-80 bg-black border-t-2 sm:border-2 border-[#1a1a1a] p-3 font-mono text-[11px] z-50 hidden shadow-[4px_4px_0px_#111]">
+    <div class="flex justify-between items-center border-b border-[#1a1a1a] pb-1 mb-2 text-gray-500 uppercase text-[9px]">
+        <span>clowdy_core_v1.0.sh</span>
+        <button id="terminal-close" class="hover:text-red-500 font-bold px-2">[CLOSE]</button>
+    </div>
+    <div id="terminal-output" class="h-32 sm:h-28 overflow-y-auto mb-2 text-gray-400 space-y-1">
+        <div class="text-[#00ffcc]">Type 'help' to see available commands.</div>
+    </div>
+    <div class="flex items-center text-white">
+        <span class="mr-1">&gt;</span>
+        <input type="text" id="terminal-input" class="bg-transparent focus:outline-none w-full text-white uppercase" autocomplete="off">
+    </div>
+</div>
 
     <script>
         const text = "Hi, I'm clowdy.\nAI & Backend Developer.";
@@ -151,8 +176,150 @@
             }
         }
 
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        function updateTime() {
+            const timeElement = document.getElementById('live-time');
+            if (timeElement) {
+                const now = new Date();
+                const options = { timeZone: 'Asia/Tashkent', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+                timeElement.innerText = now.toLocaleTimeString('en-US', options);
+            }
+        }
+
+        const canvas = document.getElementById('neural-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const maxDistance = 100; 
+        let mouse = { x: null, y: null };
+
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+
+                if (mouse.x && mouse.y) {
+                    let dx = this.x - mouse.x;
+                    let dy = this.y - mouse.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < 80) {
+                        this.x += dx * 0.02;
+                        this.y += dy * 0.02;
+                    }
+                }
+            }
+            draw() {
+                ctx.fillStyle = '#262626'; 
+                ctx.fillRect(Math.floor(this.x), Math.floor(this.y), 2, 2);
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const particleCount = Math.floor((canvas.width * canvas.height) / 20000); 
+            for(let i = 0; i < Math.min(particleCount, 90); i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            for(let i = 0; i < particles.length; i++) {
+                for(let j = i + 1; j < particles.length; j++) {
+                    let dx = particles[i].x - particles[j].x;
+                    let dy = particles[i].y - particles[j].y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < maxDistance) {
+                        ctx.strokeStyle = `rgba(50, 50, 50, ${1.2 - dist/maxDistance})`; 
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(Math.floor(particles[i].x), Math.floor(particles[i].y));
+                        ctx.lineTo(Math.floor(particles[j].x), Math.floor(particles[j].y));
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateCanvas);
+        }
+
+        const termToggle = document.getElementById('terminal-toggle');
+        const termClose = document.getElementById('terminal-close');
+        const termBox = document.getElementById('mini-terminal');
+        const termInput = document.getElementById('terminal-input');
+        const termOutput = document.getElementById('terminal-output');
+
+        termToggle.addEventListener('click', () => termBox.classList.toggle('hidden'));
+        termClose.addEventListener('click', () => termBox.classList.add('hidden'));
+
+        termInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const cmd = this.value.trim().toLowerCase();
+                this.value = '';
+                
+                if(!cmd) return;
+
+                let reply = `<div><span class="text-white">&gt; ${cmd.toUpperCase()}</span></div>`;
+                
+                switch(cmd) {
+                    case 'help':
+                        reply += `<div class="text-gray-500">Commands: info, skills, clear</div>`;
+                        break;
+                    case 'info':
+                        reply += `<div class="text-yellow-500">Developer: clowdy<br>Focus: AI Agents & Backend</div>`;
+                        break;
+                    case 'skills':
+                        reply += `<div class="text-blue-400">Python, FastAPI, Gemini, LangChain, Ollama</div>`;
+                        break;
+                    case 'clear':
+                        termOutput.innerHTML = '';
+                        return;
+                    default:
+                        reply += `<div class="text-red-500">Unknown command. Type 'help'</div>`;
+                }
+                
+                termOutput.innerHTML += reply;
+                termOutput.scrollTop = termOutput.scrollHeight;
+            }
+        });
+
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(type, 500);
+            document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+            setInterval(updateTime, 1000);
+            updateTime();
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+            animateCanvas();
         });
     </script>
 </body>
