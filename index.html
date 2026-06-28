@@ -413,34 +413,45 @@
             }
         });
 
-        fetch('https://api.github.com/users/clowdyyy')
-            .then(r => r.json())
-            .then(data => {
-                const statsEl = document.getElementById('github-stats');
-                if (!statsEl) return;
-                const cards = statsEl.querySelectorAll('.github-card');
-                const values = [data.public_repos, '—', data.followers, data.following];
-                cards.forEach((card, i) => {
-                    const valEl = card.querySelector('.github-value');
-                    if (valEl) {
-                        valEl.textContent = values[i] !== undefined ? values[i] : '—';
+        function updateGitHubStats() {
+            const statsEl = document.getElementById('github-stats');
+            if (!statsEl) return;
+            const cards = statsEl.querySelectorAll('.github-card');
+
+            fetch('https://api.github.com/users/clowdyyy')
+                .then(r => {
+                    if (!r.ok) throw new Error('GitHub API ' + r.status);
+                    return r.json();
+                })
+                .then(data => {
+                    const values = [data.public_repos || 0, '—', data.followers || 0, data.following || 0];
+                    cards.forEach((card, i) => {
+                        const valEl = card.querySelector('.github-value');
+                        if (valEl) valEl.textContent = values[i];
+                    });
+                    return fetch('https://api.github.com/users/clowdyyy/repos?per_page=100');
+                })
+                .then(r => {
+                    if (!r || !r.ok) return [];
+                    return r.json();
+                })
+                .then(repos => {
+                    if (!Array.isArray(repos)) return;
+                    const totalStars = repos.reduce((sum, r) => sum + (r.stargazers_count || 0), 0);
+                    if (cards[1]) {
+                        const valEl = cards[1].querySelector('.github-value');
+                        if (valEl) valEl.textContent = totalStars;
                     }
+                })
+                .catch(err => {
+                    console.error('GitHub fetch error:', err);
+                    cards.forEach(card => {
+                        const valEl = card.querySelector('.github-value');
+                        if (valEl) valEl.textContent = '—';
+                    });
                 });
-                return fetch('https://api.github.com/users/clowdyyy/repos?per_page=100');
-            })
-            .then(r => r ? r.json() : [])
-            .then(repos => {
-                if (!Array.isArray(repos)) return;
-                const totalStars = repos.reduce((sum, r) => sum + (r.stargazers_count || 0), 0);
-                const statsEl = document.getElementById('github-stats');
-                if (!statsEl) return;
-                const cards = statsEl.querySelectorAll('.github-card');
-                if (cards[1]) {
-                    const valEl = cards[1].querySelector('.github-value');
-                    if (valEl) valEl.textContent = totalStars;
-                }
-            })
-            .catch(() => {});
+        }
+        updateGitHubStats();
 
         const bootStages = [
             { text: "> Initializing kernel...", delay: 180 },
