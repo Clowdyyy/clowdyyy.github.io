@@ -6,6 +6,8 @@
     <title>clowdy | AI & Backend Developer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body class="selection:bg-white selection:text-black text-xs md:text-sm antialiased overflow-x-hidden bg-black text-white">
 
@@ -24,6 +26,11 @@
         <a href="#" class="text-xl font-bold uppercase tracking-tight logo-smooth-hover">Clowdy</a>
         
         <div class="flex items-center space-x-4 sm:space-x-6 uppercase text-gray-400 text-[10px] sm:text-xs">
+            <div id="visitor-counter" class="flex items-center gap-2 bg-[#050505] border border-[#1a1a1a] px-3 py-1.5 text-[10px] uppercase font-bold">
+                <span class="inline-block w-1.5 h-1.5 bg-[#00ffcc] animate-pulse shadow-[0_0_6px_#00ffcc]"></span>
+                <span class="text-gray-500">online:</span>
+                <span class="text-[#00ffcc]" id="visitor-count">—</span>
+            </div>
             <button id="terminal-toggle" class="text-[#00ffcc] hover:text-white transition bg-[#090909] border border-[#1a1a1a] px-2 py-1">
                 [ _terminal ]
             </button>
@@ -385,6 +392,55 @@
             resizeCanvas();
             animateCanvas();
         });
+
+        (function() {
+            const firebaseConfig = {
+                apiKey: "AIzaSyC3GoHZoI7PGiTqvfEyXTD-BNRLbZZIgZ4",
+                authDomain: "clowdy-1.firebaseapp.com",
+                databaseURL: "https://clowdy-1-default-rtdb.europe-west1.firebasedatabase.app",
+                projectId: "clowdy-1"
+            };
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.database();
+            const countEl = document.getElementById('visitor-count');
+
+            const VISITOR_KEY = 'clowdy_visitor_id';
+            let visitorId = sessionStorage.getItem(VISITOR_KEY);
+            if (!visitorId) {
+                visitorId = 'v_' + Math.random().toString(36).substring(2, 10) + '_' + Date.now();
+                sessionStorage.setItem(VISITOR_KEY, visitorId);
+            }
+
+            const visitorRef = db.ref('visitors/' + visitorId);
+            const visitorsRef = db.ref('visitors');
+
+            visitorRef.set({
+                joined: firebase.database.ServerValue.TIMESTAMP
+            });
+            visitorRef.onDisconnect().remove();
+
+            setInterval(() => {
+                visitorRef.update({ lastSeen: firebase.database.ServerValue.TIMESTAMP });
+            }, 25000);
+
+            visitorsRef.on('value', (snapshot) => {
+                if (countEl) countEl.textContent = snapshot.numChildren();
+            });
+
+            window.addEventListener('beforeunload', () => {
+                visitorRef.remove();
+            });
+
+            visitorsRef.once('value', (snapshot) => {
+                const now = Date.now();
+                snapshot.forEach((child) => {
+                    const data = child.val();
+                    if (data.lastSeen && (now - data.lastSeen > 90000)) {
+                        child.ref.remove();
+                    }
+                });
+            });
+        })();
     </script>
 </body>
 </html>
