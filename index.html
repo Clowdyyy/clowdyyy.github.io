@@ -32,10 +32,10 @@
                 <span style="color:var(--text-dim);">online:</span>
                 <span style="color:var(--accent);" id="visitor-count">—</span>
             </div>
-            <button id="theme-toggle" class="hover:text-white transition px-2 py-1" style="color:var(--accent);background:var(--bg-nav);border:1px solid var(--border);">
+            <button id="theme-toggle" class="hidden sm:inline-block hover:text-white transition px-2 py-1" style="color:var(--accent);background:var(--bg-nav);border:1px solid var(--border);">
                 [ light ]
             </button>
-            <button id="terminal-toggle" class="hover:text-white transition px-2 py-1" style="color:var(--accent);background:var(--bg-nav);border:1px solid var(--border);">
+            <button id="terminal-toggle" class="hidden sm:inline-block hover:text-white transition px-2 py-1" style="color:var(--accent);background:var(--bg-nav);border:1px solid var(--border);">
                 [ _terminal ]
             </button>
             <a href="#projects" class="hover:text-white transition">Projects</a>
@@ -219,6 +219,15 @@
         </div>
     </div>
 
+    <div id="floating-tools" class="fixed bottom-4 right-4 z-40 flex gap-2 sm:hidden">
+        <button id="theme-toggle-mobile" class="px-3 py-2 text-[10px] uppercase font-bold" style="color:var(--accent);background:var(--bg-card);border:1px solid var(--border);">
+            [ light ]
+        </button>
+        <button id="terminal-toggle-mobile" class="px-3 py-2 text-[10px] uppercase font-bold" style="color:var(--accent);background:var(--bg-card);border:1px solid var(--border);">
+            [ _terminal ]
+        </button>
+    </div>
+
     <script>
         function getThemeVar(name) {
             return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -228,17 +237,25 @@
         document.documentElement.setAttribute('data-theme', savedTheme);
 
         const themeToggle = document.getElementById('theme-toggle');
-        themeToggle.textContent = savedTheme === 'dark' ? '[ light ]' : '[ dark ]';
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const themeLabel = savedTheme === 'dark' ? '[ light ]' : '[ dark ]';
+        if (themeToggle) themeToggle.textContent = themeLabel;
+        if (themeToggleMobile) themeToggleMobile.textContent = themeLabel;
 
-        themeToggle.addEventListener('click', () => {
+        function switchTheme() {
             document.body.classList.add('theme-transition');
             const current = document.documentElement.getAttribute('data-theme');
             const next = current === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', next);
             localStorage.setItem('clowdy-theme', next);
-            themeToggle.textContent = next === 'dark' ? '[ light ]' : '[ dark ]';
+            const label = next === 'dark' ? '[ light ]' : '[ dark ]';
+            if (themeToggle) themeToggle.textContent = label;
+            if (themeToggleMobile) themeToggleMobile.textContent = label;
             setTimeout(() => document.body.classList.remove('theme-transition'), 400);
-        });
+        }
+
+        if (themeToggle) themeToggle.addEventListener('click', switchTheme);
+        if (themeToggleMobile) themeToggleMobile.addEventListener('click', switchTheme);
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text);
@@ -396,6 +413,9 @@
 
         termToggle.addEventListener('click', () => termBox.classList.toggle('hidden'));
         termClose.addEventListener('click', () => termBox.classList.add('hidden'));
+
+        const termToggleMobile = document.getElementById('terminal-toggle-mobile');
+        if (termToggleMobile) termToggleMobile.addEventListener('click', () => termBox.classList.toggle('hidden'));
 
         termInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
