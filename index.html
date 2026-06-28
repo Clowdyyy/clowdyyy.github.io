@@ -85,19 +85,19 @@
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4" id="github-stats">
             <div class="github-card p-6 text-center reveal" style="background:var(--bg-card);">
                 <div class="text-[10px] uppercase mb-3" style="color:var(--text-dim);">Repos</div>
-                <div class="text-2xl font-bold github-value" style="color:var(--accent);"><span class="github-skeleton inline-block w-8 h-6 rounded"></span></div>
+                <div class="text-2xl font-bold github-value" style="color:var(--accent);">3</div>
             </div>
             <div class="github-card p-6 text-center reveal delay-100" style="background:var(--bg-card);">
                 <div class="text-[10px] uppercase mb-3" style="color:var(--text-dim);">Stars</div>
-                <div class="text-2xl font-bold github-value" style="color:var(--accent);"><span class="github-skeleton inline-block w-8 h-6 rounded"></span></div>
+                <div class="text-2xl font-bold github-value" style="color:var(--accent);">0</div>
             </div>
             <div class="github-card p-6 text-center reveal delay-200" style="background:var(--bg-card);">
                 <div class="text-[10px] uppercase mb-3" style="color:var(--text-dim);">Followers</div>
-                <div class="text-2xl font-bold github-value" style="color:var(--accent);"><span class="github-skeleton inline-block w-8 h-6 rounded"></span></div>
+                <div class="text-2xl font-bold github-value" style="color:var(--accent);">0</div>
             </div>
             <div class="github-card p-6 text-center reveal delay-300" style="background:var(--bg-card);">
                 <div class="text-[10px] uppercase mb-3" style="color:var(--text-dim);">Following</div>
-                <div class="text-2xl font-bold github-value" style="color:var(--accent);"><span class="github-skeleton inline-block w-8 h-6 rounded"></span></div>
+                <div class="text-2xl font-bold github-value" style="color:var(--accent);">0</div>
             </div>
         </div>
     </section>
@@ -450,11 +450,6 @@
                 .catch(() => {
                     if (cached) {
                         try { applyGitHubStats(cards, JSON.parse(cached)); } catch(e) {}
-                    } else {
-                        cards.forEach(card => {
-                            const valEl = card.querySelector('.github-value');
-                            if (valEl) valEl.textContent = '—';
-                        });
                     }
                 });
         }
