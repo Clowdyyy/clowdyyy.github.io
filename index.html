@@ -434,21 +434,14 @@
                 } catch(e) {}
             }
 
-            const bust = '?t=' + Date.now();
-            fetch('https://api.github.com/users/clowdyyy' + bust)
+            fetch('stats.json?t=' + Date.now())
                 .then(r => {
                     if (!r.ok) throw new Error('status ' + r.status);
                     return r.json();
                 })
                 .then(data => {
-                    return fetch('https://api.github.com/users/clowdyyy/repos?per_page=100' + bust)
-                        .then(r => r.ok ? r.json() : [])
-                        .then(repos => {
-                            const totalStars = Array.isArray(repos) ? repos.reduce((s, r) => s + (r.stargazers_count || 0), 0) : 0;
-                            const result = { repos: data.public_repos || 0, stars: totalStars, followers: data.followers || 0, following: data.following || 0 };
-                            localStorage.setItem(CACHE_KEY, JSON.stringify({ ...result, ts: Date.now() }));
-                            applyGitHubStats(cards, result);
-                        });
+                    localStorage.setItem(CACHE_KEY, JSON.stringify({ ...data, ts: Date.now() }));
+                    applyGitHubStats(cards, data);
                 })
                 .catch(() => {
                     if (cached) {

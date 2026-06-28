@@ -1,0 +1,37 @@
+name: Update GitHub Stats
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch GitHub stats
+        run: |
+          curl -s https://api.github.com/users/${{ github.repository_owner }} > user.json
+          curl -s "https://api.github.com/users/${{ github.repository_owner }}/repos?per_page=100" > repos.json
+
+      - name: Generate stats.json
+        run: |
+          REPOS=$(python3 -c "import json; print(json.load(open('user.json')).get('public_repos', 0))")
+          FOLLOWERS=$(python3 -c "import json; print(json.load(open('user.json')).get('followers', 0))")
+          FOLLOWING=$(python3 -c "import json; print(json.load(open('user.json')).get('following', 0))")
+          STARS=$(python3 -c "import json; repos=json.load(open('repos.json')); print(sum(r.get('stargazers_count', 0) for r in repos))")
+          echo "{\"repos\":$REPOS,\"stars\":$STARS,\"followers\":$FOLLOWERS,\"following\":$FOLLOWING}" > stats.json
+          cat stats.json
+
+      - name: Commit stats
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add stats.json
+          git diff --staged --quiet || git commit -m "chore: update github stats"
+          git push
