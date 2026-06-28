@@ -81,7 +81,10 @@
     </section>
 
     <section id="github" class="max-w-5xl mx-auto px-6 py-16 relative z-10" style="border-top:2px solid var(--border);">
-        <h2 class="text-xs uppercase mb-8 reveal" style="color:var(--text-dim);">GITHUB_STATS</h2>
+        <div class="flex justify-between items-center mb-8 reveal">
+            <h2 class="text-xs uppercase" style="color:var(--text-dim);">GITHUB_STATS</h2>
+            <button id="gh-refresh" class="text-[10px] uppercase px-2 py-1 transition" style="color:var(--text-dim);border:1px solid var(--border);">refresh</button>
+        </div>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4" id="github-stats">
             <div class="github-card p-6 text-center reveal" style="background:var(--bg-card);">
                 <div class="text-[10px] uppercase mb-3" style="color:var(--text-dim);">Repos</div>
@@ -418,10 +421,10 @@
             if (!statsEl) return;
             const cards = statsEl.querySelectorAll('.github-card');
             const CACHE_KEY = 'gh_stats_cache';
-            const CACHE_TTL = 60 * 60 * 1000;
+            const CACHE_TTL = 5 * 60 * 1000;
 
             const cached = localStorage.getItem(CACHE_KEY);
-            if (cached) {
+            if (cached && !window.__ghForceRefresh) {
                 try {
                     const d = JSON.parse(cached);
                     if (Date.now() - d.ts < CACHE_TTL) {
@@ -459,6 +462,15 @@
             cards.forEach((card, i) => {
                 const valEl = card.querySelector('.github-value');
                 if (valEl) valEl.textContent = values[i] !== undefined ? values[i] : '—';
+            });
+        }
+
+        const ghRefreshBtn = document.getElementById('gh-refresh');
+        if (ghRefreshBtn) {
+            ghRefreshBtn.addEventListener('click', () => {
+                localStorage.removeItem('gh_stats_cache');
+                window.__ghForceRefresh = true;
+                updateGitHubStats();
             });
         }
         setTimeout(updateGitHubStats, 1000);
