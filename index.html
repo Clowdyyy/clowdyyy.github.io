@@ -417,6 +417,19 @@
             const statsEl = document.getElementById('github-stats');
             if (!statsEl) return;
             const cards = statsEl.querySelectorAll('.github-card');
+            const CACHE_KEY = 'gh_stats_cache';
+            const CACHE_TTL = 60 * 60 * 1000;
+
+            const cached = localStorage.getItem(CACHE_KEY);
+            if (cached) {
+                try {
+                    const d = JSON.parse(cached);
+                    if (Date.now() - d.ts < CACHE_TTL) {
+                        applyGitHubStats(cards, d);
+                        return;
+                    }
+                } catch(e) {}
+            }
 
             const bust = '?t=' + Date.now();
             fetch('https://api.github.com/users/clowdyyy' + bust)
@@ -425,31 +438,33 @@
                     return r.json();
                 })
                 .then(data => {
-                    const values = [data.public_repos || 0, '—', data.followers || 0, data.following || 0];
-                    cards.forEach((card, i) => {
-                        const valEl = card.querySelector('.github-value');
-                        if (valEl) valEl.textContent = values[i];
-                    });
-                    return fetch('https://api.github.com/users/clowdyyy/repos?per_page=100' + bust);
+                    return fetch('https://api.github.com/users/clowdyyy/repos?per_page=100' + bust)
+                        .then(r => r.ok ? r.json() : [])
+                        .then(repos => {
+                            const totalStars = Array.isArray(repos) ? repos.reduce((s, r) => s + (r.stargazers_count || 0), 0) : 0;
+                            const result = { repos: data.public_repos || 0, stars: totalStars, followers: data.followers || 0, following: data.following || 0 };
+                            localStorage.setItem(CACHE_KEY, JSON.stringify({ ...result, ts: Date.now() }));
+                            applyGitHubStats(cards, result);
+                        });
                 })
-                .then(r => {
-                    if (!r || !r.ok) return [];
-                    return r.json();
-                })
-                .then(repos => {
-                    if (!Array.isArray(repos)) return;
-                    const totalStars = repos.reduce((sum, r) => sum + (r.stargazers_count || 0), 0);
-                    if (cards[1]) {
-                        const valEl = cards[1].querySelector('.github-value');
-                        if (valEl) valEl.textContent = totalStars;
+                .catch(() => {
+                    if (cached) {
+                        try { applyGitHubStats(cards, JSON.parse(cached)); } catch(e) {}
+                    } else {
+                        cards.forEach(card => {
+                            const valEl = card.querySelector('.github-value');
+                            if (valEl) valEl.textContent = '—';
+                        });
                     }
-                })
-                .catch(err => {
-                    cards.forEach((card, i) => {
-                        const valEl = card.querySelector('.github-value');
-                        if (valEl) valEl.textContent = '—';
-                    });
                 });
+        }
+
+        function applyGitHubStats(cards, d) {
+            const values = [d.repos, d.stars, d.followers, d.following];
+            cards.forEach((card, i) => {
+                const valEl = card.querySelector('.github-value');
+                if (valEl) valEl.textContent = values[i] !== undefined ? values[i] : '—';
+            });
         }
         setTimeout(updateGitHubStats, 1000);
 
