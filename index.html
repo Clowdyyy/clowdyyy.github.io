@@ -13,11 +13,17 @@
 
     <div id="boot-screen" class="fixed inset-0 z-[100] flex flex-col justify-center items-center font-mono text-xs sm:text-sm" style="background-color:var(--bg);color:var(--accent);">
         <div class="w-full max-w-lg px-6">
-            <div class="mb-4" style="color:var(--text-dim);">clowdy_os v2.0.0</div>
-            <div id="boot-log" class="mb-4 space-y-1 text-[10px] overflow-hidden" style="color:var(--text-muted);height:160px;">
+            <div class="mb-6 text-center">
+                <div class="text-2xl font-bold uppercase tracking-wider mb-1" style="color:var(--accent);text-shadow:0 0 20px var(--accent-dim);">CLOWDY OS</div>
+                <div class="text-[10px]" style="color:var(--text-dim);">v2.0.0 - Minecraft Edition</div>
             </div>
-            <div class="mb-2 w-full" id="boot-progress">[░░░░░░░░░░░░░░░░░░░░] 0%</div>
-            <div id="boot-status" class="animate-pulse mt-4" style="color:var(--text-dim);">_</div>
+            <div id="boot-log" class="mb-4 space-y-1 text-[10px] overflow-hidden" style="color:var(--text-muted);height:140px;">
+            </div>
+            <div class="mb-3" id="boot-progress-bar">
+                <div class="mc-progress-bar" id="mc-progress"></div>
+            </div>
+            <div class="text-[10px] text-center mb-2" style="color:var(--text-dim);" id="boot-percent">0%</div>
+            <div id="boot-tip" class="text-[10px] text-center mt-4 px-4 py-2" style="color:var(--text-dim);border:1px solid var(--border);"></div>
         </div>
     </div>
 
@@ -28,7 +34,7 @@
 
         <div class="flex items-center space-x-3 sm:space-x-5 uppercase text-[10px] sm:text-xs" style="color:var(--text-muted);">
             <div id="visitor-counter" class="hidden sm:flex items-center gap-2 px-3 py-1.5 text-[10px] uppercase font-bold" style="background:var(--bg-card);border:1px solid var(--border);">
-                <span class="inline-block w-1.5 h-1.5 animate-pulse" style="background:var(--accent);box-shadow:0 0 6px var(--accent);"></span>
+                <span class="inline-block w-1.5 h-1.5 torch-flicker" style="background:var(--accent);"></span>
                 <span style="color:var(--text-dim);">online:</span>
                 <span style="color:var(--accent);" id="visitor-count">—</span>
             </div>
@@ -46,10 +52,10 @@
 
     <section class="max-w-5xl mx-auto px-6 pt-24 pb-16 min-h-[65vh] flex flex-col justify-center relative z-10 reveal">
         <div class="text-[10px] mb-4 uppercase tracking-wider font-bold" style="color:var(--accent);">
-            <span class="inline-block w-2 h-2 animate-pulse mr-2" style="background:var(--accent);box-shadow:0 0 8px var(--accent);"></span>
+            <span class="inline-block w-2 h-2 torch-flicker mr-2" style="background:var(--accent);"></span>
             [ Status: Available for work | Local Time: <span id="live-time">00:00:00</span> TSH ]
             <span class="inline-block sm:hidden ml-3 px-2 py-0.5" style="border:1px solid var(--border);background:var(--bg-card);">
-                <span class="inline-block w-1.5 h-1.5 animate-pulse mr-1" style="background:var(--accent);box-shadow:0 0 6px var(--accent);"></span>
+                <span class="inline-block w-1.5 h-1.5 torch-flicker mr-1" style="background:var(--accent);"></span>
                 online: <span style="color:var(--accent);" id="visitor-count-mobile">—</span>
             </span>
         </div>
@@ -226,6 +232,16 @@
         <button id="terminal-toggle-mobile" class="px-3 py-2 text-[10px] uppercase font-bold" style="color:var(--accent);background:var(--bg-card);border:1px solid var(--border);">
             [ _terminal ]
         </button>
+    </div>
+
+    <div id="achievement-popup" class="fixed top-4 left-1/2 -translate-x-1/2 z-[200] pointer-events-none hide" style="opacity:0;transform:translateX(-50%) translateY(-20px);">
+        <div class="flex items-center gap-3 px-4 py-3" style="background:var(--bg-card);border:2px solid var(--accent);box-shadow:4px 4px 0px var(--shadow-dark);">
+            <div class="text-2xl" id="achievement-icon"></div>
+            <div>
+                <div class="text-[10px] uppercase" style="color:var(--text-dim);">Achievement Unlocked!</div>
+                <div class="text-xs font-bold uppercase" style="color:var(--accent);" id="achievement-text"></div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -489,40 +505,88 @@
         setTimeout(updateGitHubStats, 1000);
 
         const bootStages = [
-            { text: "> Initializing kernel...", delay: 180 },
-            { text: "> Loading neural modules: OK", delay: 250 },
-            { text: "> Connecting to GitHub API: OK", delay: 200 },
+            { text: "> Generating terrain...", delay: 200 },
+            { text: "> Loading resource packs: OK", delay: 280 },
+            { text: "> Preparing spawn area: 100%", delay: 220 },
+            { text: "> Initializing neural modules: OK", delay: 250 },
+            { text: "> Connecting to GitHub servers: OK", delay: 200 },
             { text: "> Syncing Firebase database: OK", delay: 300 },
             { text: "> Calibrating particle engine: OK", delay: 180 },
-            { text: "> Loading portfolio assets: OK", delay: 220 },
-            { text: "> Starting typewriter engine: OK", delay: 150 },
-            { text: "> All systems operational.", delay: 300 },
+            { text: "> Building crafting table: OK", delay: 200 },
+            { text: "> Applying enchantments: OK", delay: 150 },
+            { text: "> All systems operational.", delay: 400 },
         ];
+
+        const bootTips = [
+            "Tip: Press F11 for fullscreen experience",
+            "Tip: Type 'help' in the terminal for commands",
+            "Tip: Try switching themes with the light/dark toggle",
+            "Tip: Check out the GitHub stats section",
+            "Tip: All projects are open source on GitHub",
+            "Tip: Contact via Telegram for collaborations",
+            "Tip: The particle background reacts to your mouse",
+            "Tip: Achievement unlocked for reading this!",
+        ];
+
+        function showAchievement(icon, text) {
+            const popup = document.getElementById('achievement-popup');
+            const textEl = document.getElementById('achievement-text');
+            const iconEl = document.getElementById('achievement-icon');
+            textEl.textContent = text;
+            iconEl.textContent = icon;
+            popup.classList.remove('hide');
+            popup.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+                popup.classList.add('hide');
+            }, 3000);
+        }
 
         document.addEventListener("DOMContentLoaded", function() {
             document.body.style.overflow = 'hidden';
             const bootScreen = document.getElementById('boot-screen');
-            const bootProgress = document.getElementById('boot-progress');
-            const bootStatus = document.getElementById('boot-status');
             const bootLog = document.getElementById('boot-log');
+            const mcProgress = document.getElementById('mc-progress');
+            const bootPercent = document.getElementById('boot-percent');
+            const bootTip = document.getElementById('boot-tip');
             let progress = 0;
             let stageIndex = 0;
+            const totalSegments = 20;
+
+            for (let i = 0; i < totalSegments; i++) {
+                const seg = document.createElement('div');
+                seg.className = 'mc-progress-segment';
+                mcProgress.appendChild(seg);
+            }
+
+            bootTip.textContent = bootTips[Math.floor(Math.random() * bootTips.length)];
+            bootTip.classList.add('tip');
+
+            function updateMcBar() {
+                const filled = Math.floor((progress / 100) * totalSegments);
+                const segments = mcProgress.querySelectorAll('.mc-progress-segment');
+                segments.forEach((seg, i) => {
+                    if (i < filled) seg.classList.add('filled');
+                    else seg.classList.remove('filled');
+                });
+                bootPercent.textContent = progress + '%';
+            }
 
             function runBoot() {
                 if (stageIndex >= bootStages.length) {
                     progress = 100;
-                    updateBar();
-                    bootStatus.innerText = "System ready. Launching portfolio...";
+                    updateMcBar();
+                    bootTip.textContent = "Done! Launching portfolio...";
                     setTimeout(() => {
-                        bootScreen.classList.add('opacity-0');
                         bootScreen.style.transition = 'opacity 0.5s';
+                        bootScreen.classList.add('opacity-0');
                         setTimeout(() => {
                             bootScreen.style.display = 'none';
                             document.body.style.overflow = '';
                             setTimeout(type, 200);
                             startCounters();
                         }, 500);
-                    }, 600);
+                    }, 500);
                     return;
                 }
                 const stage = bootStages[stageIndex];
@@ -532,15 +596,9 @@
                 bootLog.appendChild(line);
                 bootLog.scrollTop = bootLog.scrollHeight;
                 progress = Math.min(100, Math.floor(((stageIndex + 1) / bootStages.length) * 100));
-                updateBar();
+                updateMcBar();
                 stageIndex++;
                 setTimeout(runBoot, stage.delay);
-            }
-
-            function updateBar() {
-                const filled = Math.floor(progress / 5);
-                const empty = 20 - filled;
-                bootProgress.innerText = '[' + '█'.repeat(filled) + '░'.repeat(empty) + '] ' + progress + '%';
             }
 
             setTimeout(runBoot, 300);
@@ -551,6 +609,47 @@
             window.addEventListener('resize', resizeCanvas);
             resizeCanvas();
             animateCanvas();
+
+            let achievementScrolled = false;
+            window.addEventListener('scroll', () => {
+                if (!achievementScrolled && window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+                    achievementScrolled = true;
+                    showAchievement('🏁', 'End of the Road');
+                }
+            });
+
+            const contactLink = document.querySelector('a[href="#contact"]');
+            let achievementContact = false;
+            if (contactLink) {
+                contactLink.addEventListener('click', () => {
+                    if (!achievementContact) {
+                        achievementContact = true;
+                        showAchievement('💼', 'Future Client');
+                    }
+                });
+            }
+
+            document.querySelectorAll('.tech-card, .hover-3d, .github-card').forEach(el => {
+                el.style.position = 'relative';
+                el.addEventListener('mousedown', () => {
+                    el.classList.add('cracking', 'crack-active');
+                });
+                el.addEventListener('mouseup', () => {
+                    el.classList.remove('cracking', 'crack-active');
+                });
+                el.addEventListener('mouseleave', () => {
+                    el.classList.remove('cracking', 'crack-active');
+                });
+            });
+
+            let achievementTerminal = false;
+            const origTermHandler = termInput.onkeydown;
+            termInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !achievementTerminal) {
+                    achievementTerminal = true;
+                    setTimeout(() => showAchievement('💻', 'Hacker'), 200);
+                }
+            });
         });
 
         (function() {

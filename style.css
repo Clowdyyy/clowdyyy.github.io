@@ -239,3 +239,98 @@ html, body, a, button, input, select, textarea {
 .theme-transition * {
     transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s, text-shadow 0.3s !important;
 }
+
+@keyframes torch-flicker {
+    0% { opacity: 1; box-shadow: 0 0 8px var(--accent); }
+    10% { opacity: 0.82; box-shadow: 0 0 5px var(--accent); }
+    20% { opacity: 1; box-shadow: 0 0 11px var(--accent); }
+    30% { opacity: 0.88; box-shadow: 0 0 6px var(--accent); }
+    45% { opacity: 0.95; box-shadow: 0 0 9px var(--accent); }
+    55% { opacity: 0.78; box-shadow: 0 0 4px var(--accent); }
+    70% { opacity: 1; box-shadow: 0 0 12px var(--accent); }
+    80% { opacity: 0.85; box-shadow: 0 0 7px var(--accent); }
+    90% { opacity: 0.92; box-shadow: 0 0 10px var(--accent); }
+    100% { opacity: 1; box-shadow: 0 0 8px var(--accent); }
+}
+
+.torch-flicker {
+    animation: torch-flicker 2.5s infinite;
+}
+
+@keyframes block-shake {
+    0%, 100% { transform: translate(0, 0); }
+    20% { transform: translate(-1px, 1px); }
+    40% { transform: translate(1px, -1px); }
+    60% { transform: translate(-1px, 0); }
+    80% { transform: translate(1px, 1px); }
+}
+
+.cracking {
+    animation: block-shake 0.15s steps(3);
+}
+
+@keyframes crack-overlay {
+    0% { opacity: 0; }
+    50% { opacity: 0.15; }
+    100% { opacity: 0; }
+}
+
+.crack-active::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 4px,
+        rgba(0, 0, 0, 0.08) 4px,
+        rgba(0, 0, 0, 0.08) 5px
+    );
+    animation: crack-overlay 0.2s forwards;
+    pointer-events: none;
+}
+
+#achievement-popup {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+#achievement-popup.show {
+    opacity: 1 !important;
+    transform: translateX(-50%) translateY(0) !important;
+}
+
+#achievement-popup.hide {
+    opacity: 0 !important;
+    transform: translateX(-50%) translateY(-20px) !important;
+}
+
+.mc-progress-bar {
+    display: flex;
+    gap: 2px;
+}
+
+.mc-progress-segment {
+    width: 8px;
+    height: 14px;
+    background: var(--border);
+    transition: background 0.15s steps(1);
+}
+
+.mc-progress-segment.filled {
+    background: var(--accent);
+    box-shadow: 0 0 4px var(--accent-dim);
+}
+
+#boot-screen .tip {
+    animation: boot-line-in 0.3s forwards;
+    opacity: 0;
+}
+
+@keyframes float-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.float-in {
+    animation: float-in 0.4s ease forwards;
+}
