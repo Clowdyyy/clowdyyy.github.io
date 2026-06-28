@@ -418,9 +418,10 @@
             if (!statsEl) return;
             const cards = statsEl.querySelectorAll('.github-card');
 
-            fetch('https://api.github.com/users/clowdyyy')
+            const bust = '?t=' + Date.now();
+            fetch('https://api.github.com/users/clowdyyy' + bust)
                 .then(r => {
-                    if (!r.ok) throw new Error('GitHub API ' + r.status);
+                    if (!r.ok) throw new Error('status ' + r.status);
                     return r.json();
                 })
                 .then(data => {
@@ -429,7 +430,7 @@
                         const valEl = card.querySelector('.github-value');
                         if (valEl) valEl.textContent = values[i];
                     });
-                    return fetch('https://api.github.com/users/clowdyyy/repos?per_page=100');
+                    return fetch('https://api.github.com/users/clowdyyy/repos?per_page=100' + bust);
                 })
                 .then(r => {
                     if (!r || !r.ok) return [];
@@ -444,14 +445,13 @@
                     }
                 })
                 .catch(err => {
-                    console.error('GitHub fetch error:', err);
-                    cards.forEach(card => {
+                    cards.forEach((card, i) => {
                         const valEl = card.querySelector('.github-value');
                         if (valEl) valEl.textContent = '—';
                     });
                 });
         }
-        updateGitHubStats();
+        setTimeout(updateGitHubStats, 1000);
 
         const bootStages = [
             { text: "> Initializing kernel...", delay: 180 },
