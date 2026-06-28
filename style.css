@@ -334,3 +334,57 @@ html, body, a, button, input, select, textarea {
 .float-in {
     animation: float-in 0.4s ease forwards;
 }
+
+.scoreboard {
+    padding: 0;
+    font-size: 11px;
+}
+
+.scoreboard-title {
+    text-align: center;
+    padding: 8px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--border);
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px var(--accent-dim);
+}
+
+.scoreboard-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+}
+
+.scoreboard-row:last-child {
+    border-bottom: none;
+}
+
+.scoreboard-value {
+    color: var(--accent);
+    font-weight: bold;
+    text-shadow: 0 0 8px var(--accent-dim);
+    font-variant-numeric: tabular-nums;
+}
+
+#stars-container {
+    background:
+        radial-gradient(1px 1px at 10% 15%, var(--text) 1px, transparent 0),
+        radial-gradient(1px 1px at 25% 45%, var(--text) 1px, transparent 0),
+        radial-gradient(1px 1px at 40% 10%, var(--text) 1px, transparent 0),
+        radial-gradient(1px 1px at 55% 75%, var(--text) 1px, transparent 0),
+        radial-gradient(1px 1px at 70% 30%, var(--text) 1px, transparent 0),
+        radial-gradient(1px 1px at 85% 60%, var(--text) 1px, transparent 0),
+        radial-gradient(1px 1px at 15% 80%, var(--text) 1px, transparent 0),
+        radial-gradient(1px 1px at 50% 50%, var(--text) 1px, transparent 0),
+        radial-gradient(1px 1px at 90% 20%, var(--text) 1px, transparent 0),
+        radial-gradient(1px 1px at 35% 90%, var(--text) 1px, transparent 0),
+        radial-gradient(1px 1px at 65% 5%, var(--text) 1px, transparent 0),
+        radial-gradient(1px 1px at 5% 55%, var(--text) 1px, transparent 0),
+        radial-gradient(1px 1px at 80% 85%, var(--text) 1px, transparent 0),
+        radial-gradient(1px 1px at 45% 35%, var(--text) 1px, transparent 0),
+        radial-gradient(1px 1px at 20% 65%, var(--text) 1px, transparent 0);
+}
