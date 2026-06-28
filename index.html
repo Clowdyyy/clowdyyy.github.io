@@ -26,7 +26,7 @@
         <a href="#" class="text-xl font-bold uppercase tracking-tight logo-smooth-hover">Clowdy</a>
         
         <div class="flex items-center space-x-4 sm:space-x-6 uppercase text-gray-400 text-[10px] sm:text-xs">
-            <div id="visitor-counter" class="flex items-center gap-2 bg-[#050505] border border-[#1a1a1a] px-3 py-1.5 text-[10px] uppercase font-bold">
+            <div id="visitor-counter" class="hidden sm:flex items-center gap-2 bg-[#050505] border border-[#1a1a1a] px-3 py-1.5 text-[10px] uppercase font-bold">
                 <span class="inline-block w-1.5 h-1.5 bg-[#00ffcc] animate-pulse shadow-[0_0_6px_#00ffcc]"></span>
                 <span class="text-gray-500">online:</span>
                 <span class="text-[#00ffcc]" id="visitor-count">—</span>
@@ -44,6 +44,10 @@
         <div class="text-[10px] text-[#00ffcc] mb-4 uppercase tracking-wider font-bold">
             <span class="inline-block w-2 h-2 bg-[#00ffcc] animate-pulse mr-2 shadow-[0_0_8px_#00ffcc]"></span>
             [ Status: Available for work | Local Time: <span id="live-time">00:00:00</span> TSH ]
+            <span class="inline-block sm:hidden ml-3 border border-[#1a1a1a] px-2 py-0.5 bg-[#050505]">
+                <span class="inline-block w-1.5 h-1.5 bg-[#00ffcc] animate-pulse mr-1 shadow-[0_0_6px_#00ffcc]"></span>
+                online: <span class="text-[#00ffcc]" id="visitor-count-mobile">—</span>
+            </span>
         </div>
         
         <p class="text-xs text-gray-500 mb-4">// PORTFOLIO_</p>
@@ -424,7 +428,10 @@
             }, 25000);
 
             visitorsRef.on('value', (snapshot) => {
-                if (countEl) countEl.textContent = snapshot.numChildren();
+                const count = snapshot.numChildren();
+                if (countEl) countEl.textContent = count;
+                const mobileEl = document.getElementById('visitor-count-mobile');
+                if (mobileEl) mobileEl.textContent = count;
             });
 
             window.addEventListener('beforeunload', () => {
