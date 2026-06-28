@@ -5,19 +5,66 @@
     font-style: normal;
 }
 
+:root {
+    --bg: #000000;
+    --bg-card: #050505;
+    --bg-card-alt: #030303;
+    --bg-nav: #090909;
+    --text: #ffffff;
+    --text-muted: #9ca3af;
+    --text-dim: #6b7280;
+    --border: #1a1a1a;
+    --border-light: #333;
+    --accent: #00ffcc;
+    --accent-dim: rgba(0, 255, 204, 0.4);
+    --shadow: #2c2c2c;
+    --shadow-dark: #161616;
+    --particle: #262626;
+    --particle-line: rgba(50, 50, 50, VAR_LINE_ALPHA);
+    --scrollbar-track: #000000;
+    --scrollbar-thumb: #161616;
+    --card-border-hover: #ffffff;
+    --btn-text: #ffffff;
+    --terminal-bg: #000000;
+}
+
+[data-theme="light"] {
+    --bg: #f5f5f0;
+    --bg-card: #ffffff;
+    --bg-card-alt: #ebebeb;
+    --bg-nav: #e8e8e3;
+    --text: #111111;
+    --text-muted: #555555;
+    --text-dim: #888888;
+    --border: #d1d1d1;
+    --border-light: #aaaaaa;
+    --accent: #00997a;
+    --accent-dim: rgba(0, 153, 122, 0.3);
+    --shadow: #cccccc;
+    --shadow-dark: #bbbbbb;
+    --particle: #cccccc;
+    --particle-line: rgba(180, 180, 180, VAR_LINE_ALPHA);
+    --scrollbar-track: #f0f0f0;
+    --scrollbar-thumb: #cccccc;
+    --card-border-hover: #111111;
+    --btn-text: #111111;
+    --terminal-bg: #1a1a1a;
+}
+
 html {
     scroll-behavior: smooth;
 }
 
 body {
     font-family: 'Minecraft UI', monospace;
-    background-color: #000000;
-    color: #ffffff;
+    background-color: var(--bg);
+    color: var(--text);
     image-rendering: pixelated;
     text-rendering: optimizeSpeed;
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: none;
     font-smooth: never;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 #neural-canvas {
@@ -35,22 +82,18 @@ section {
 }
 
 h1, h2, h3, nav a, .tech-card span, button, .minecraft-shadow {
-    text-shadow: 2px 2px 0px #2c2c2c;
-}
-
-.bg-white {
-    text-shadow: 1px 1px 0px #b5b5b5 !important;
+    text-shadow: 2px 2px 0px var(--shadow);
 }
 
 .cursor {
     display: inline-block;
-    width: 0.15em;           
-    height: 0.9em;           
-    background-color: #ffffff;
+    width: 0.15em;
+    height: 0.9em;
+    background-color: var(--text);
     animation: blink 0.8s infinite;
     vertical-align: bottom;
-    margin-left: 6px;        
-    box-shadow: 1.5px 1.5px 0px #2c2c2c; 
+    margin-left: 6px;
+    box-shadow: 1.5px 1.5px 0px var(--shadow);
 }
 
 @keyframes blink {
@@ -64,9 +107,9 @@ h1, h2, h3, nav a, .tech-card span, button, .minecraft-shadow {
 }
 
 .logo-smooth-hover:hover {
-    color: #00ffcc;
+    color: var(--accent);
     transform: translate(-1px, -1px);
-    text-shadow: 3px 3px 0px #2c2c2c;
+    text-shadow: 3px 3px 0px var(--shadow);
 }
 
 ::-webkit-scrollbar {
@@ -74,27 +117,27 @@ h1, h2, h3, nav a, .tech-card span, button, .minecraft-shadow {
 }
 
 ::-webkit-scrollbar-track {
-    background: #000000;
-    border-left: 2px solid #1a1a1a;
+    background: var(--scrollbar-track);
+    border-left: 2px solid var(--border);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #161616;
-    border: 2px solid #000000;
+    background: var(--scrollbar-thumb);
+    border: 2px solid var(--bg);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #ffffff;
+    background: var(--text);
 }
 
 .tech-card {
-    border: 2px solid #1a1a1a;
+    border: 2px solid var(--border);
     transition: transform 0.1s steps(3), box-shadow 0.1s steps(3), border-color 0.1s steps(3);
 }
 
 .tech-card:hover {
-    border-color: #ffffff;
-    box-shadow: 6px 6px 0px #161616;
+    border-color: var(--card-border-hover);
+    box-shadow: 6px 6px 0px var(--shadow-dark);
     transform: translate(-3px, -3px);
 }
 
@@ -104,14 +147,40 @@ h1, h2, h3, nav a, .tech-card span, button, .minecraft-shadow {
 
 .hover-3d-white:hover {
     transform: translate(-3px, -3px);
-    box-shadow: 5px 5px 0px #2c2c2c;
+    box-shadow: 5px 5px 0px var(--shadow);
 }
 
 .hover-3d-black:hover {
     transform: translate(-3px, -3px);
-    box-shadow: 5px 5px 0px #ffffff;
-    border-color: #ffffff;
-    color: #ffffff;
+    box-shadow: 5px 5px 0px var(--text);
+    border-color: var(--text);
+    color: var(--text);
+}
+
+.github-card {
+    border: 2px solid var(--border);
+    transition: transform 0.1s steps(3), box-shadow 0.1s steps(3), border-color 0.1s steps(3);
+}
+
+.github-card:hover {
+    border-color: var(--accent);
+    box-shadow: 6px 6px 0px var(--shadow-dark);
+    transform: translate(-3px, -3px);
+}
+
+.github-value {
+    text-shadow: 0 0 10px var(--accent-dim);
+}
+
+.github-skeleton {
+    background: linear-gradient(90deg, var(--bg-card) 25%, var(--border) 50%, var(--bg-card) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-pulse 1.5s infinite;
+}
+
+@keyframes skeleton-pulse {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }
 
 .reveal {
@@ -139,5 +208,34 @@ html, body, a, button, input, select, textarea {
 
 #visitor-count {
     min-width: 1ch;
-    text-shadow: 0 0 6px rgba(0, 255, 204, 0.4);
+    text-shadow: 0 0 6px var(--accent-dim);
+}
+
+#visitor-count-mobile {
+    text-shadow: 0 0 6px var(--accent-dim);
+}
+
+.boot-line {
+    opacity: 0;
+    animation: boot-line-in 0.2s forwards;
+}
+
+@keyframes boot-line-in {
+    to { opacity: 1; }
+}
+
+#mini-terminal {
+    background-color: var(--terminal-bg);
+}
+
+#mini-terminal input {
+    color: var(--text);
+}
+
+#boot-screen {
+    background-color: var(--bg);
+}
+
+.theme-transition * {
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s, text-shadow 0.3s !important;
 }

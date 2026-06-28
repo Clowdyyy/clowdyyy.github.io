@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,29 +9,33 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
-<body class="selection:bg-white selection:text-black text-xs md:text-sm antialiased overflow-x-hidden bg-black text-white">
+<body class="selection:bg-[var(--accent)] selection:text-black text-xs md:text-sm antialiased overflow-x-hidden" style="background-color:var(--bg);color:var(--text);">
 
-    <div id="boot-screen" class="fixed inset-0 bg-black z-[100] flex flex-col justify-center items-center font-mono text-[#00ffcc] text-xs sm:text-sm transition-opacity duration-500">
-        <div class="w-full max-w-md px-6 flex flex-col items-center sm:items-start text-center sm:text-left">
-            <div class="mb-2 text-gray-500">clowdy_os v1.0.0 initializing...</div>
-            <div class="mb-4 text-white">Loading core neural modules: <span class="text-[#00ffcc]">OK</span></div>
+    <div id="boot-screen" class="fixed inset-0 z-[100] flex flex-col justify-center items-center font-mono text-xs sm:text-sm" style="background-color:var(--bg);color:var(--accent);">
+        <div class="w-full max-w-lg px-6">
+            <div class="mb-4" style="color:var(--text-dim);">clowdy_os v2.0.0</div>
+            <div id="boot-log" class="mb-4 space-y-1 text-[10px] overflow-hidden" style="color:var(--text-muted);height:160px;">
+            </div>
             <div class="mb-2 w-full" id="boot-progress">[░░░░░░░░░░░░░░░░░░░░] 0%</div>
-            <div id="boot-status" class="animate-pulse mt-4 text-gray-400">_</div>
+            <div id="boot-status" class="animate-pulse mt-4" style="color:var(--text-dim);">_</div>
         </div>
     </div>
 
     <canvas id="neural-canvas"></canvas>
 
-    <nav class="max-w-5xl mx-auto px-6 py-6 flex flex-wrap justify-between items-center border-b-2 border-[#1a1a1a] relative z-10 gap-y-4">
+    <nav class="max-w-5xl mx-auto px-6 py-6 flex flex-wrap justify-between items-center relative z-10 gap-y-4" style="border-bottom:2px solid var(--border);">
         <a href="#" class="text-xl font-bold uppercase tracking-tight logo-smooth-hover">Clowdy</a>
-        
-        <div class="flex items-center space-x-4 sm:space-x-6 uppercase text-gray-400 text-[10px] sm:text-xs">
-            <div id="visitor-counter" class="hidden sm:flex items-center gap-2 bg-[#050505] border border-[#1a1a1a] px-3 py-1.5 text-[10px] uppercase font-bold">
-                <span class="inline-block w-1.5 h-1.5 bg-[#00ffcc] animate-pulse shadow-[0_0_6px_#00ffcc]"></span>
-                <span class="text-gray-500">online:</span>
-                <span class="text-[#00ffcc]" id="visitor-count">—</span>
+
+        <div class="flex items-center space-x-3 sm:space-x-5 uppercase text-[10px] sm:text-xs" style="color:var(--text-muted);">
+            <div id="visitor-counter" class="hidden sm:flex items-center gap-2 px-3 py-1.5 text-[10px] uppercase font-bold" style="background:var(--bg-card);border:1px solid var(--border);">
+                <span class="inline-block w-1.5 h-1.5 animate-pulse" style="background:var(--accent);box-shadow:0 0 6px var(--accent);"></span>
+                <span style="color:var(--text-dim);">online:</span>
+                <span style="color:var(--accent);" id="visitor-count">—</span>
             </div>
-            <button id="terminal-toggle" class="text-[#00ffcc] hover:text-white transition bg-[#090909] border border-[#1a1a1a] px-2 py-1">
+            <button id="theme-toggle" class="hover:text-white transition px-2 py-1" style="color:var(--accent);background:var(--bg-nav);border:1px solid var(--border);">
+                [ light ]
+            </button>
+            <button id="terminal-toggle" class="hover:text-white transition px-2 py-1" style="color:var(--accent);background:var(--bg-nav);border:1px solid var(--border);">
                 [ _terminal ]
             </button>
             <a href="#projects" class="hover:text-white transition">Projects</a>
@@ -41,156 +45,198 @@
     </nav>
 
     <section class="max-w-5xl mx-auto px-6 pt-24 pb-16 min-h-[65vh] flex flex-col justify-center relative z-10 reveal">
-        <div class="text-[10px] text-[#00ffcc] mb-4 uppercase tracking-wider font-bold">
-            <span class="inline-block w-2 h-2 bg-[#00ffcc] animate-pulse mr-2 shadow-[0_0_8px_#00ffcc]"></span>
+        <div class="text-[10px] mb-4 uppercase tracking-wider font-bold" style="color:var(--accent);">
+            <span class="inline-block w-2 h-2 animate-pulse mr-2" style="background:var(--accent);box-shadow:0 0 8px var(--accent);"></span>
             [ Status: Available for work | Local Time: <span id="live-time">00:00:00</span> TSH ]
-            <span class="inline-block sm:hidden ml-3 border border-[#1a1a1a] px-2 py-0.5 bg-[#050505]">
-                <span class="inline-block w-1.5 h-1.5 bg-[#00ffcc] animate-pulse mr-1 shadow-[0_0_6px_#00ffcc]"></span>
-                online: <span class="text-[#00ffcc]" id="visitor-count-mobile">—</span>
+            <span class="inline-block sm:hidden ml-3 px-2 py-0.5" style="border:1px solid var(--border);background:var(--bg-card);">
+                <span class="inline-block w-1.5 h-1.5 animate-pulse mr-1" style="background:var(--accent);box-shadow:0 0 6px var(--accent);"></span>
+                online: <span style="color:var(--accent);" id="visitor-count-mobile">—</span>
             </span>
         </div>
-        
-        <p class="text-xs text-gray-500 mb-4">// PORTFOLIO_</p>
-        
+
+        <p class="text-xs mb-4 uppercase" style="color:var(--text-dim);">PORTFOLIO_</p>
+
         <h1 class="text-4xl md:text-6xl uppercase mb-6 leading-relaxed min-h-[140px] md:min-h-[160px]">
             <span id="typewriter"></span><span class="cursor" id="typewriter-cursor">&nbsp;</span>
         </h1>
-        
-        <p class="text-gray-400 max-w-2xl text-xs md:text-sm mb-8 leading-relaxed normal-case minecraft-shadow">
+
+        <p class="max-w-2xl text-xs md:text-sm mb-8 leading-relaxed normal-case minecraft-shadow" style="color:var(--text-muted);">
             I build robust backend systems, integrate Large Language Models, automate business workflows, and create intelligent production-ready applications.
         </p>
 
-        <div class="flex gap-8 text-[10px] text-gray-500 uppercase mt-2 mb-8 border-t border-[#1a1a1a] pt-6">
-            <div><span class="text-white text-lg sm:text-xl font-bold counter" data-target="14">0</span>+ <br>Projects</div>
-            <div><span class="text-white text-lg sm:text-xl font-bold counter" data-target="24">0</span>/7 <br>Availability</div>
-            <div><span class="text-white text-lg sm:text-xl font-bold counter" data-target="100">0</span>% <br>Optimized</div>
+        <div class="flex gap-8 text-[10px] uppercase mt-2 mb-8 pt-6" style="color:var(--text-dim);border-top:1px solid var(--border);">
+            <div><span class="text-lg sm:text-xl font-bold counter" data-target="14" style="color:var(--text);">0</span>+ <br>Projects</div>
+            <div><span class="text-lg sm:text-xl font-bold counter" data-target="24" style="color:var(--text);">0</span>/7 <br>Availability</div>
+            <div><span class="text-lg sm:text-xl font-bold counter" data-target="100" style="color:var(--text);">0</span>% <br>Optimized</div>
         </div>
-        
+
         <div class="flex flex-wrap gap-4">
-            <a href="#contact" class="bg-white text-black font-bold uppercase px-5 py-3 text-xs hover-3d hover-3d-white">
+            <a href="#contact" class="font-bold uppercase px-5 py-3 text-xs hover-3d hover-3d-white" style="background:var(--text);color:var(--bg);">
                 Hire Me on Fiverr
             </a>
-            <a href="https://github.com/clowdyyy" target="_blank" class="border-2 border-[#333] text-white font-bold uppercase px-5 py-3 text-xs hover-3d hover-3d-black">
+            <a href="https://github.com/clowdyyy" target="_blank" class="font-bold uppercase px-5 py-3 text-xs hover-3d hover-3d-black" style="border:2px solid var(--border-light);color:var(--text);">
                 View GitHub
             </a>
         </div>
     </section>
 
-    <section id="projects" class="max-w-5xl mx-auto px-6 py-16 border-t-2 border-[#1a1a1a] relative z-10">
-        <h2 class="text-xs uppercase text-gray-500 mb-12 reveal">// RECENT_WORKS</h2>
-        
+    <section id="github" class="max-w-5xl mx-auto px-6 py-16 relative z-10" style="border-top:2px solid var(--border);">
+        <h2 class="text-xs uppercase mb-8 reveal" style="color:var(--text-dim);">GITHUB_STATS</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4" id="github-stats">
+            <div class="github-card p-6 text-center reveal" style="background:var(--bg-card);">
+                <div class="text-[10px] uppercase mb-3" style="color:var(--text-dim);">Repos</div>
+                <div class="text-2xl font-bold github-value" style="color:var(--accent);"><span class="github-skeleton inline-block w-8 h-6 rounded"></span></div>
+            </div>
+            <div class="github-card p-6 text-center reveal delay-100" style="background:var(--bg-card);">
+                <div class="text-[10px] uppercase mb-3" style="color:var(--text-dim);">Stars</div>
+                <div class="text-2xl font-bold github-value" style="color:var(--accent);"><span class="github-skeleton inline-block w-8 h-6 rounded"></span></div>
+            </div>
+            <div class="github-card p-6 text-center reveal delay-200" style="background:var(--bg-card);">
+                <div class="text-[10px] uppercase mb-3" style="color:var(--text-dim);">Followers</div>
+                <div class="text-2xl font-bold github-value" style="color:var(--accent);"><span class="github-skeleton inline-block w-8 h-6 rounded"></span></div>
+            </div>
+            <div class="github-card p-6 text-center reveal delay-300" style="background:var(--bg-card);">
+                <div class="text-[10px] uppercase mb-3" style="color:var(--text-dim);">Following</div>
+                <div class="text-2xl font-bold github-value" style="color:var(--accent);"><span class="github-skeleton inline-block w-8 h-6 rounded"></span></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="max-w-5xl mx-auto px-6 py-16 relative z-10" style="border-top:2px solid var(--border);">
+        <h2 class="text-xs uppercase mb-12 reveal" style="color:var(--text-dim);">RECENT_WORKS</h2>
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="tech-card p-6 bg-[#050505]/90 backdrop-blur-sm flex flex-col justify-between reveal">
+            <div class="tech-card p-6 backdrop-blur-sm flex flex-col justify-between reveal" style="background:var(--bg-card);">
                 <div>
                     <div class="flex justify-between items-start mb-4">
                         <h3 class="text-sm font-bold uppercase">nutrimind bot</h3>
-                        <span class="text-[10px] bg-[#111] px-2 py-1 text-gray-400 border-2 border-[#222]">Public</span>
+                        <span class="text-[10px] px-2 py-1" style="background:var(--bg-card-alt);color:var(--text-muted);border:2px solid var(--border);">Public</span>
                     </div>
-                    <p class="text-gray-400 text-xs mb-6 leading-relaxed normal-case minecraft-shadow">
+                    <p class="text-xs mb-6 leading-relaxed normal-case minecraft-shadow" style="color:var(--text-muted);">
                         An AI-powered Telegram bot for effortless calorie and macro tracking via text descriptions and food photos. Built with Python, Aiogram 3, SQLAlchemy, and Gemini AI.
                     </p>
                 </div>
                 <div>
-                    <div class="flex flex-wrap gap-2 mb-4 text-[10px] text-gray-500 uppercase">
+                    <div class="flex flex-wrap gap-2 mb-4 text-[10px] uppercase" style="color:var(--text-dim);">
                         <span>#Python</span> <span>#Aiogram3</span> <span>#Gemini</span>
                     </div>
-                    <a href="https://github.com/clowdyyy/nutrimind-bot" target="_blank" class="text-xs underline hover:text-gray-300 transition">Source Code &rarr;</a>
+                    <a href="https://github.com/clowdyyy/nutrimind-bot" target="_blank" class="text-xs underline transition" style="color:var(--text-muted);">Source Code &rarr;</a>
                 </div>
             </div>
 
-            <div class="tech-card p-6 bg-[#050505]/90 backdrop-blur-sm flex flex-col justify-between reveal delay-100">
+            <div class="tech-card p-6 backdrop-blur-sm flex flex-col justify-between reveal delay-100" style="background:var(--bg-card);">
                 <div>
                     <div class="flex justify-between items-start mb-4">
                         <h3 class="text-sm font-bold uppercase">ai document analyst</h3>
-                        <span class="text-[10px] bg-[#111] px-2 py-1 text-gray-400 border-2 border-[#222]">Public</span>
+                        <span class="text-[10px] px-2 py-1" style="background:var(--bg-card-alt);color:var(--text-muted);border:2px solid var(--border);">Public</span>
                     </div>
-                    <p class="text-gray-400 text-xs mb-6 leading-relaxed normal-case minecraft-shadow">
+                    <p class="text-xs mb-6 leading-relaxed normal-case minecraft-shadow" style="color:var(--text-muted);">
                         A fully local RAG (Retrieval-Augmented Generation) system for secure, 100% private PDF document analysis using LangChain, ChromaDB, Ollama (Llama 3), and Streamlit.
                     </p>
                 </div>
                 <div>
-                    <div class="flex flex-wrap gap-2 mb-4 text-[10px] text-gray-500 uppercase">
+                    <div class="flex flex-wrap gap-2 mb-4 text-[10px] uppercase" style="color:var(--text-dim);">
                         <span>#LangChain</span> <span>#Ollama</span> <span>#ChromaDB</span>
                     </div>
-                    <a href="https://github.com/clowdyyy/ai-document-analyst" target="_blank" class="text-xs underline hover:text-gray-300 transition">Source Code &rarr;</a>
+                    <a href="https://github.com/clowdyyy/ai-document-analyst" target="_blank" class="text-xs underline transition" style="color:var(--text-muted);">Source Code &rarr;</a>
                 </div>
             </div>
 
-            <div class="tech-card p-6 bg-[#050505]/90 backdrop-blur-sm flex flex-col justify-between md:col-span-2 reveal delay-200">
+            <div class="tech-card p-6 backdrop-blur-sm flex flex-col justify-between md:col-span-2 reveal delay-200" style="background:var(--bg-card);">
                 <div>
                     <div class="flex justify-between items-start mb-4">
                         <h3 class="text-sm font-bold uppercase">ai ticket agent</h3>
-                        <span class="text-[10px] bg-[#111] px-2 py-1 text-gray-400 border-2 border-[#222]">Public</span>
+                        <span class="text-[10px] px-2 py-1" style="background:var(--bg-card-alt);color:var(--text-muted);border:2px solid var(--border);">Public</span>
                     </div>
-                    <p class="text-gray-400 text-xs mb-6 leading-relaxed normal-case minecraft-shadow">
+                    <p class="text-xs mb-6 leading-relaxed normal-case minecraft-shadow" style="color:var(--text-muted);">
                         Intelligent, automated B2B customer support and ticket processing agent. Leverages FastAPI for high-performance routing and Google Gemini for intent classification, sentiment analysis, and structured query generation.
                     </p>
                 </div>
                 <div>
-                    <div class="flex flex-wrap gap-2 mb-4 text-[10px] text-gray-500 uppercase">
+                    <div class="flex flex-wrap gap-2 mb-4 text-[10px] uppercase" style="color:var(--text-dim);">
                         <span>#FastAPI</span> <span>#Gemini-AI</span> <span>#Agents</span>
                     </div>
-                    <a href="https://github.com/clowdyyy/ai-ticket-agent-fastapi" target="_blank" class="text-xs underline hover:text-gray-300 transition">Source Code &rarr;</a>
+                    <a href="https://github.com/clowdyyy/ai-ticket-agent-fastapi" target="_blank" class="text-xs underline transition" style="color:var(--text-muted);">Source Code &rarr;</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="stack" class="max-w-5xl mx-auto px-6 py-16 border-t-2 border-[#1a1a1a] relative z-10">
-        <h2 class="text-xs uppercase text-gray-500 mb-8 reveal">// TECH_STACK</h2>
+    <section id="stack" class="max-w-5xl mx-auto px-6 py-16 relative z-10" style="border-top:2px solid var(--border);">
+        <h2 class="text-xs uppercase mb-8 reveal" style="color:var(--text-dim);">TECH_STACK</h2>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center text-xs">
-            <div class="border-2 border-[#111] bg-[#030303]/90 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal">Python 3.12</div>
-            <div class="border-2 border-[#111] bg-[#030303]/90 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal delay-100">FastAPI</div>
-            <div class="border-2 border-[#111] bg-[#030303]/90 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal delay-200">Aiogram 3</div>
-            <div class="border-2 border-[#111] bg-[#030303]/90 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal delay-300">LangChain</div>
-            <div class="border-2 border-[#111] bg-[#030303]/90 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal">Gemini API</div>
-            <div class="border-2 border-[#111] bg-[#030303]/90 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal delay-100">Ollama</div>
-            <div class="border-2 border-[#111] bg-[#030303]/90 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal delay-200">SQLAlchemy</div>
-            <div class="border-2 border-[#111] bg-[#030303]/90 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal delay-300">ChromaDB</div>
+            <div class="border-2 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal" style="border-color:var(--border);background:var(--bg-card-alt);">Python 3.12</div>
+            <div class="border-2 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal delay-100" style="border-color:var(--border);background:var(--bg-card-alt);">FastAPI</div>
+            <div class="border-2 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal delay-200" style="border-color:var(--border);background:var(--bg-card-alt);">Aiogram 3</div>
+            <div class="border-2 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal delay-300" style="border-color:var(--border);background:var(--bg-card-alt);">LangChain</div>
+            <div class="border-2 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal" style="border-color:var(--border);background:var(--bg-card-alt);">Gemini API</div>
+            <div class="border-2 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal delay-100" style="border-color:var(--border);background:var(--bg-card-alt);">Ollama</div>
+            <div class="border-2 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal delay-200" style="border-color:var(--border);background:var(--bg-card-alt);">SQLAlchemy</div>
+            <div class="border-2 backdrop-blur-sm py-4 uppercase hover-3d hover-3d-black reveal delay-300" style="border-color:var(--border);background:var(--bg-card-alt);">ChromaDB</div>
         </div>
     </section>
 
-    <section id="contact" class="max-w-5xl mx-auto px-6 py-24 border-t-2 border-[#1a1a1a] text-center relative z-10 reveal">
+    <section id="contact" class="max-w-5xl mx-auto px-6 py-24 text-center relative z-10 reveal" style="border-top:2px solid var(--border);">
         <h2 class="text-xl md:text-2xl uppercase mb-6">Let's build something intelligent.</h2>
-        <p class="text-gray-400 max-w-md mx-auto text-xs mb-8 leading-relaxed normal-case minecraft-shadow">
+        <p class="max-w-md mx-auto text-xs mb-8 leading-relaxed normal-case minecraft-shadow" style="color:var(--text-muted);">
             Need a custom Telegram bot, AI agent, database architecture, or LLM integration? Let's discuss your project goals.
         </p>
-        
+
         <div class="inline-flex flex-col sm:flex-row gap-4 justify-center items-center w-full sm:w-auto">
             <div class="flex items-stretch gap-2 w-full sm:w-auto relative">
-                <a href="https://t.me/abbosibodullaev" target="_blank" class="bg-white text-black font-bold uppercase px-8 py-4 text-xs hover-3d hover-3d-white flex-1 text-center flex items-center justify-center">
+                <a href="https://t.me/abbosibodullaev" target="_blank" class="font-bold uppercase px-8 py-4 text-xs hover-3d hover-3d-white flex-1 text-center flex items-center justify-center" style="background:var(--text);color:var(--bg);">
                     Contact via Telegram
                 </a>
-                <button onclick="copyToClipboard('@abbosibodullaev')" class="border-2 border-[#1a1a1a] bg-[#050505] text-gray-500 hover:text-[#00ffcc] hover:border-[#00ffcc] px-4 py-4 text-xs transition group flex items-center justify-center" title="Copy Username">
+                <button onclick="copyToClipboard('@abbosibodullaev')" class="px-4 py-4 text-xs transition group flex items-center justify-center" style="border:2px solid var(--border);background:var(--bg-card);color:var(--text-dim);" title="Copy Username">
                     [ COPY ]
-                    <span id="copy-msg" class="absolute -top-8 left-1/2 -translate-x-1/2 text-[10px] text-[#00ffcc] opacity-0 transition-opacity whitespace-nowrap bg-[#111] px-2 py-1 border border-[#333]">COPIED!</span>
+                    <span id="copy-msg" class="absolute -top-8 left-1/2 -translate-x-1/2 text-[10px] opacity-0 transition-opacity whitespace-nowrap px-2 py-1" style="color:var(--accent);background:var(--bg-card-alt);border:1px solid var(--border-light);">COPIED!</span>
                 </button>
             </div>
-            <a href="https://github.com/clowdyyy" target="_blank" class="border-2 border-[#333] text-white font-bold uppercase px-8 py-4 text-xs hover-3d hover-3d-black w-full sm:w-auto text-center flex items-center justify-center">
+            <a href="https://github.com/clowdyyy" target="_blank" class="font-bold uppercase px-8 py-4 text-xs hover-3d hover-3d-black w-full sm:w-auto text-center flex items-center justify-center" style="border:2px solid var(--border-light);color:var(--text);">
                 View GitHub
             </a>
         </div>
     </section>
 
-    <footer class="max-w-5xl mx-auto px-6 py-8 border-t-2 border-[#1a1a1a] text-center text-[10px] text-gray-600 uppercase font-bold relative z-10 reveal">
-        &copy; 2026 clowdy. All rights reserved. // engineered_with_precision
+    <footer class="max-w-5xl mx-auto px-6 py-8 text-center text-[10px] uppercase font-bold relative z-10 reveal" style="border-top:2px solid var(--border);color:var(--text-dim);">
+        &copy; 2026 clowdy. All rights reserved. engineered_with_precision
     </footer>
 
-    <div id="mini-terminal" class="fixed bottom-0 left-0 w-full sm:bottom-4 sm:right-4 sm:w-80 bg-black border-t-2 sm:border-2 border-[#1a1a1a] p-3 font-mono text-[11px] z-50 hidden shadow-[4px_4px_0px_#111]">
-        <div class="flex justify-between items-center border-b border-[#1a1a1a] pb-1 mb-2 text-gray-500 uppercase text-[9px]">
-            <span>clowdy_core_v1.0.sh</span>
-            <button id="terminal-close" class="hover:text-red-500 font-bold px-2">[CLOSE]</button>
+    <div id="mini-terminal" class="fixed bottom-0 left-0 w-full sm:bottom-4 sm:right-4 sm:w-80 p-3 font-mono text-[11px] z-50 hidden" style="background:var(--terminal-bg);border-top:2px solid var(--border);box-shadow:4px 4px 0px var(--shadow-dark);">
+        <div class="flex justify-between items-center pb-1 mb-2 uppercase text-[9px]" style="border-bottom:1px solid var(--border);color:var(--text-dim);">
+            <span>clowdy_core_v2.0.sh</span>
+            <button id="terminal-close" class="font-bold px-2" style="color:#ef4444;">[CLOSE]</button>
         </div>
-        <div id="terminal-output" class="h-32 sm:h-28 overflow-y-auto mb-2 text-gray-400 space-y-1">
-            <div class="text-[#00ffcc]">Type 'help' to see available commands.</div>
+        <div id="terminal-output" class="h-32 sm:h-28 overflow-y-auto mb-2 space-y-1" style="color:var(--text-muted);">
+            <div style="color:var(--accent);">Type 'help' to see available commands.</div>
         </div>
-        <div class="flex items-center text-white">
-            <span class="mr-1">&gt;</span>
-            <input type="text" id="terminal-input" class="bg-transparent focus:outline-none w-full text-white uppercase" autocomplete="off">
+        <div class="flex items-center">
+            <span class="mr-1" style="color:var(--text);">&gt;</span>
+            <input type="text" id="terminal-input" class="bg-transparent focus:outline-none w-full uppercase" style="color:var(--text);" autocomplete="off">
         </div>
     </div>
 
     <script>
+        function getThemeVar(name) {
+            return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        }
+
+        const savedTheme = localStorage.getItem('clowdy-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.textContent = savedTheme === 'dark' ? '[ light ]' : '[ dark ]';
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.add('theme-transition');
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('clowdy-theme', next);
+            themeToggle.textContent = next === 'dark' ? '[ light ]' : '[ dark ]';
+            setTimeout(() => document.body.classList.remove('theme-transition'), 400);
+        });
+
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text);
             const msg = document.getElementById('copy-msg');
@@ -198,18 +244,18 @@
             setTimeout(() => msg.classList.add('opacity-0'), 2000);
         }
 
-        const text = "Hi, I'm clowdy.\nAI & Backend Developer.";
-        const element = document.getElementById("typewriter");
-        let index = 0;
+        const typewriterText = "Hi, I'm clowdy.\nAI & Backend Developer.";
+        const typewriterEl = document.getElementById("typewriter");
+        let typeIndex = 0;
 
         function type() {
-            if (index < text.length) {
-                if (text.charAt(index) === "\n") {
-                    element.innerHTML += "<br>";
+            if (typeIndex < typewriterText.length) {
+                if (typewriterText.charAt(typeIndex) === "\n") {
+                    typewriterEl.innerHTML += "<br>";
                 } else {
-                    element.innerHTML += text.charAt(index);
+                    typewriterEl.innerHTML += typewriterText.charAt(typeIndex);
                 }
-                index++;
+                typeIndex++;
                 setTimeout(type, 70);
             }
         }
@@ -217,13 +263,11 @@
         function startCounters() {
             const counters = document.querySelectorAll('.counter');
             const speed = 25;
-
             counters.forEach(counter => {
                 const updateCount = () => {
                     const target = +counter.getAttribute('data-target');
                     const count = +counter.innerText;
                     const inc = Math.max(1, Math.ceil(target / speed));
-
                     if (count < target) {
                         counter.innerText = count + inc > target ? target : count + inc;
                         setTimeout(updateCount, 50);
@@ -236,28 +280,28 @@
         }
 
         const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
-        const observer = new IntersectionObserver((entries, observer) => {
+        const observer = new IntersectionObserver((entries, obs) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    observer.unobserve(entry.target);
+                    obs.unobserve(entry.target);
                 }
             });
         }, observerOptions);
 
         function updateTime() {
-            const timeElement = document.getElementById('live-time');
-            if (timeElement) {
+            const el = document.getElementById('live-time');
+            if (el) {
                 const now = new Date();
-                const options = { timeZone: 'Asia/Tashkent', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-                timeElement.innerText = now.toLocaleTimeString('en-US', options);
+                const opts = { timeZone: 'Asia/Tashkent', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+                el.innerText = now.toLocaleTimeString('en-US', opts);
             }
         }
 
         const canvas = document.getElementById('neural-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-        const maxDistance = 100; 
+        const maxDistance = 100;
         let mouse = { x: null, y: null };
 
         window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
@@ -267,6 +311,18 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             initParticles();
+        }
+
+        function getParticleColor() {
+            const theme = document.documentElement.getAttribute('data-theme');
+            return theme === 'light' ? '#bbbbbb' : '#262626';
+        }
+
+        function getLineColor(alpha) {
+            const theme = document.documentElement.getAttribute('data-theme');
+            return theme === 'light'
+                ? `rgba(180, 180, 180, ${alpha})`
+                : `rgba(50, 50, 50, ${alpha})`;
         }
 
         class Particle {
@@ -281,11 +337,10 @@
                 this.y += this.vy;
                 if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
                 if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-
                 if (mouse.x && mouse.y) {
                     let dx = this.x - mouse.x;
                     let dy = this.y - mouse.y;
-                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    let dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < 80) {
                         this.x += dx * 0.02;
                         this.y += dy * 0.02;
@@ -293,15 +348,15 @@
                 }
             }
             draw() {
-                ctx.fillStyle = '#262626'; 
+                ctx.fillStyle = getParticleColor();
                 ctx.fillRect(Math.floor(this.x), Math.floor(this.y), 2, 2);
             }
         }
 
         function initParticles() {
             particles = [];
-            const particleCount = Math.floor((canvas.width * canvas.height) / 20000); 
-            for(let i = 0; i < Math.min(particleCount, 90); i++) {
+            const particleCount = Math.floor((canvas.width * canvas.height) / 20000);
+            for (let i = 0; i < Math.min(particleCount, 90); i++) {
                 particles.push(new Particle());
             }
         }
@@ -312,14 +367,13 @@
                 p.update();
                 p.draw();
             });
-
-            for(let i = 0; i < particles.length; i++) {
-                for(let j = i + 1; j < particles.length; j++) {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
                     let dx = particles[i].x - particles[j].x;
                     let dy = particles[i].y - particles[j].y;
-                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    let dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < maxDistance) {
-                        ctx.strokeStyle = `rgba(50, 50, 50, ${1.2 - dist/maxDistance})`; 
+                        ctx.strokeStyle = getLineColor(1.2 - dist / maxDistance);
                         ctx.lineWidth = 1;
                         ctx.beginPath();
                         ctx.moveTo(Math.floor(particles[i].x), Math.floor(particles[i].y));
@@ -344,50 +398,106 @@
             if (e.key === 'Enter') {
                 const cmd = this.value.trim().toLowerCase();
                 this.value = '';
-                if(!cmd) return;
-                let reply = `<div><span class="text-white">&gt; ${cmd.toUpperCase()}</span></div>`;
-                switch(cmd) {
-                    case 'help': reply += `<div class="text-gray-500">Commands: info, skills, clear</div>`; break;
-                    case 'info': reply += `<div class="text-yellow-500">Developer: Abboskhon Ibodullaev(a.k.a. clowdy)<br>Focus: AI Agents & Backend</div>`; break;
-                    case 'skills': reply += `<div class="text-blue-400">Python, FastAPI, Gemini, LangChain, Ollama</div>`; break;
+                if (!cmd) return;
+                let reply = `<div><span style="color:var(--text);">&gt; ${cmd.toUpperCase()}</span></div>`;
+                switch (cmd) {
+                    case 'help': reply += `<div style="color:var(--text-dim);">Commands: info, skills, projects, clear</div>`; break;
+                    case 'info': reply += `<div style="color:#eab308;">Developer: Abboskhon Ibodullaev (clowdy)<br>Focus: AI Agents & Backend</div>`; break;
+                    case 'skills': reply += `<div style="color:#60a5fa;">Python, FastAPI, Gemini, LangChain, Ollama</div>`; break;
+                    case 'projects': reply += `<div style="color:var(--accent);">1. NutriMind Bot<br>2. AI Document Analyst<br>3. AI Ticket Agent</div>`; break;
                     case 'clear': termOutput.innerHTML = ''; return;
-                    default: reply += `<div class="text-red-500">Unknown command. Type 'help'</div>`;
+                    default: reply += `<div style="color:#ef4444;">Unknown command. Type 'help'</div>`;
                 }
                 termOutput.innerHTML += reply;
                 termOutput.scrollTop = termOutput.scrollHeight;
             }
         });
 
+        fetch('https://api.github.com/users/clowdyyy')
+            .then(r => r.json())
+            .then(data => {
+                const statsEl = document.getElementById('github-stats');
+                if (!statsEl) return;
+                const cards = statsEl.querySelectorAll('.github-card');
+                const values = [data.public_repos, '—', data.followers, data.following];
+                cards.forEach((card, i) => {
+                    const valEl = card.querySelector('.github-value');
+                    if (valEl) {
+                        valEl.textContent = values[i] !== undefined ? values[i] : '—';
+                    }
+                });
+                return fetch('https://api.github.com/users/clowdyyy/repos?per_page=100');
+            })
+            .then(r => r ? r.json() : [])
+            .then(repos => {
+                if (!Array.isArray(repos)) return;
+                const totalStars = repos.reduce((sum, r) => sum + (r.stargazers_count || 0), 0);
+                const statsEl = document.getElementById('github-stats');
+                if (!statsEl) return;
+                const cards = statsEl.querySelectorAll('.github-card');
+                if (cards[1]) {
+                    const valEl = cards[1].querySelector('.github-value');
+                    if (valEl) valEl.textContent = totalStars;
+                }
+            })
+            .catch(() => {});
+
+        const bootStages = [
+            { text: "> Initializing kernel...", delay: 180 },
+            { text: "> Loading neural modules: OK", delay: 250 },
+            { text: "> Connecting to GitHub API: OK", delay: 200 },
+            { text: "> Syncing Firebase database: OK", delay: 300 },
+            { text: "> Calibrating particle engine: OK", delay: 180 },
+            { text: "> Loading portfolio assets: OK", delay: 220 },
+            { text: "> Starting typewriter engine: OK", delay: 150 },
+            { text: "> All systems operational.", delay: 300 },
+        ];
+
         document.addEventListener("DOMContentLoaded", function() {
-            document.body.style.overflow = 'hidden'; 
+            document.body.style.overflow = 'hidden';
             const bootScreen = document.getElementById('boot-screen');
             const bootProgress = document.getElementById('boot-progress');
             const bootStatus = document.getElementById('boot-status');
+            const bootLog = document.getElementById('boot-log');
             let progress = 0;
+            let stageIndex = 0;
 
-            const bootInterval = setInterval(() => {
-                progress += Math.floor(Math.random() * 12) + 4; 
-                if (progress > 100) progress = 100;
-                
-                const filled = Math.floor(progress / 5);
-                const empty = 20 - filled;
-                bootProgress.innerText = '[' + '█'.repeat(filled) + '░'.repeat(empty) + '] ' + progress + '%';
-
-                if (progress === 100) {
-                    clearInterval(bootInterval);
+            function runBoot() {
+                if (stageIndex >= bootStages.length) {
+                    progress = 100;
+                    updateBar();
                     bootStatus.innerText = "System ready. Launching portfolio...";
                     setTimeout(() => {
                         bootScreen.classList.add('opacity-0');
+                        bootScreen.style.transition = 'opacity 0.5s';
                         setTimeout(() => {
                             bootScreen.style.display = 'none';
-                            document.body.style.overflow = ''; 
-                            
+                            document.body.style.overflow = '';
                             setTimeout(type, 200);
                             startCounters();
                         }, 500);
-                    }, 700); 
+                    }, 600);
+                    return;
                 }
-            }, 150); 
+                const stage = bootStages[stageIndex];
+                const line = document.createElement('div');
+                line.className = 'boot-line';
+                line.textContent = stage.text;
+                bootLog.appendChild(line);
+                bootLog.scrollTop = bootLog.scrollHeight;
+                progress = Math.min(100, Math.floor(((stageIndex + 1) / bootStages.length) * 100));
+                updateBar();
+                stageIndex++;
+                setTimeout(runBoot, stage.delay);
+            }
+
+            function updateBar() {
+                const filled = Math.floor(progress / 5);
+                const empty = 20 - filled;
+                bootProgress.innerText = '[' + '█'.repeat(filled) + '░'.repeat(empty) + '] ' + progress + '%';
+            }
+
+            setTimeout(runBoot, 300);
 
             document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
             setInterval(updateTime, 1000);
