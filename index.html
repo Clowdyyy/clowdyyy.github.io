@@ -87,16 +87,27 @@
     </section>
 
     <section id="github" class="max-w-5xl mx-auto px-6 py-16 relative z-10" style="border-top:2px solid var(--border);">
-        <div class="flex justify-between items-center mb-6 reveal">
+        <div class="flex justify-between items-center mb-8 reveal">
             <h2 class="text-xs uppercase" style="color:var(--text-dim);">GITHUB_STATS</h2>
             <button id="gh-refresh" class="text-[10px] uppercase px-2 py-1 transition" style="color:var(--text-dim);border:1px solid var(--border);">refresh</button>
         </div>
-        <div class="scoreboard reveal" style="background:var(--bg-card);border:2px solid var(--border);max-width:320px;">
-            <div class="scoreboard-title">clowdy</div>
-            <div class="scoreboard-row"><span>Repos</span><span class="scoreboard-value" id="sb-repos">8</span></div>
-            <div class="scoreboard-row"><span>Stars</span><span class="scoreboard-value" id="sb-stars">1</span></div>
-            <div class="scoreboard-row"><span>Followers</span><span class="scoreboard-value" id="sb-followers">0</span></div>
-            <div class="scoreboard-row"><span>Following</span><span class="scoreboard-value" id="sb-following">1</span></div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4" id="github-stats">
+            <div class="github-card p-6 text-center reveal" style="background:var(--bg-card);">
+                <div class="text-[10px] uppercase mb-3" style="color:var(--text-dim);">Repos</div>
+                <div class="text-2xl font-bold github-value" style="color:var(--accent);">8</div>
+            </div>
+            <div class="github-card p-6 text-center reveal delay-100" style="background:var(--bg-card);">
+                <div class="text-[10px] uppercase mb-3" style="color:var(--text-dim);">Stars</div>
+                <div class="text-2xl font-bold github-value" style="color:var(--accent);">1</div>
+            </div>
+            <div class="github-card p-6 text-center reveal delay-200" style="background:var(--bg-card);">
+                <div class="text-[10px] uppercase mb-3" style="color:var(--text-dim);">Followers</div>
+                <div class="text-2xl font-bold github-value" style="color:var(--accent);">0</div>
+            </div>
+            <div class="github-card p-6 text-center reveal delay-300" style="background:var(--bg-card);">
+                <div class="text-[10px] uppercase mb-3" style="color:var(--text-dim);">Following</div>
+                <div class="text-2xl font-bold github-value" style="color:var(--accent);">1</div>
+            </div>
         </div>
     </section>
 
@@ -233,11 +244,6 @@
         </div>
     </div>
 
-    <div id="daynight-overlay" class="fixed inset-0 z-[90] pointer-events-none" style="opacity:0;transition:opacity 0.4s;">
-        <div id="sun-moon" style="position:absolute;left:50%;top:50%;font-size:48px;transition:all 1.2s cubic-bezier(0.4,0,0.2,1);transform:translate(-50%,-50%);"></div>
-        <div id="stars-container" class="absolute inset-0" style="opacity:0;transition:opacity 1.2s;"></div>
-    </div>
-
     <script>
         function getThemeVar(name) {
             return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -253,38 +259,15 @@
         if (themeToggleMobile) themeToggleMobile.textContent = themeLabel;
 
         function switchTheme() {
-            const overlay = document.getElementById('daynight-overlay');
-            const sunMoon = document.getElementById('sun-moon');
-            const stars = document.getElementById('stars-container');
+            document.body.classList.add('theme-transition');
             const current = document.documentElement.getAttribute('data-theme');
             const next = current === 'dark' ? 'light' : 'dark';
-
-            overlay.style.opacity = '1';
-            if (next === 'light') {
-                sunMoon.textContent = '\u2600\uFE0F';
-                sunMoon.style.top = '120%';
-                stars.style.opacity = '0';
-                requestAnimationFrame(() => { sunMoon.style.top = '40%'; });
-            } else {
-                sunMoon.textContent = '\uD83C\uDF19';
-                sunMoon.style.top = '-20%';
-                stars.style.opacity = '1';
-                requestAnimationFrame(() => { sunMoon.style.top = '40%'; });
-            }
-
-            setTimeout(() => {
-                document.documentElement.setAttribute('data-theme', next);
-                localStorage.setItem('clowdy-theme', next);
-                const label = next === 'dark' ? '[ light ]' : '[ dark ]';
-                if (themeToggle) themeToggle.textContent = label;
-                if (themeToggleMobile) themeToggleMobile.textContent = label;
-            }, 700);
-
-            setTimeout(() => {
-                overlay.style.opacity = '0';
-                sunMoon.style.top = next === 'light' ? '-20%' : '120%';
-                stars.style.opacity = '0';
-            }, 1500);
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('clowdy-theme', next);
+            const label = next === 'dark' ? '[ light ]' : '[ dark ]';
+            if (themeToggle) themeToggle.textContent = label;
+            if (themeToggleMobile) themeToggleMobile.textContent = label;
+            setTimeout(() => document.body.classList.remove('theme-transition'), 400);
         }
 
         if (themeToggle) themeToggle.addEventListener('click', switchTheme);
@@ -504,11 +487,11 @@
         }
 
         function applyGitHubStats(cards, d) {
-            const el = (id) => document.getElementById(id);
-            if (el('sb-repos')) el('sb-repos').textContent = d.repos !== undefined ? d.repos : '—';
-            if (el('sb-stars')) el('sb-stars').textContent = d.stars !== undefined ? d.stars : '—';
-            if (el('sb-followers')) el('sb-followers').textContent = d.followers !== undefined ? d.followers : '—';
-            if (el('sb-following')) el('sb-following').textContent = d.following !== undefined ? d.following : '—';
+            const values = [d.repos, d.stars, d.followers, d.following];
+            cards.forEach((card, i) => {
+                const valEl = card.querySelector('.github-value');
+                if (valEl) valEl.textContent = values[i] !== undefined ? values[i] : '—';
+            });
         }
 
         const ghRefreshBtn = document.getElementById('gh-refresh');
